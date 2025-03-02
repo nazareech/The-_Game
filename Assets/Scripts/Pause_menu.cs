@@ -5,14 +5,17 @@ public class Pause_menu : MonoBehaviour
 {
 
     public static bool isPaused = false;
-    public static bool Music_is_Play = true;
+    // public static bool Music_is_Play = true;
     public GameObject pauseMusic;
+
+    AudioSource audioSource;
+
     public GameObject pauseMenuUI;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        audioSource = pauseMusic.GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -24,28 +27,31 @@ public class Pause_menu : MonoBehaviour
             {
                 Resume();
             }
-            else 
-            { 
-                Pause(); 
+            else
+            {
+                Pause();
             }
         }
     }
     public void Resume()
     {
-        pauseMusic.SetActive(true);
+        audioSource.UnPause();
+        // pauseMusic.SetActive(true);
+
         pauseMenuUI.SetActive(false);
         Time.timeScale = 1f;
         isPaused = false;
-        Music_is_Play = false;
+        // Music_is_Play = false;
     }
     public void Pause()
     {
 
-        pauseMusic.SetActive(false);
+        audioSource.Pause();
+        // pauseMusic.SetActive(false);
         pauseMenuUI.SetActive(true);
         Time.timeScale = 0f;
         isPaused = true;
-        Music_is_Play = true;
+        // Music_is_Play = true;
     }
     public void ExitGame()
     {
