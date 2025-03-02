@@ -1,70 +1,10 @@
 fileFormatVersion: 2
-guid: c606de7e32ede81488e534a30a123a86
+guid: 86e0541ecf5bc7640ab6e20a0d583da1
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -2620761727700390271
-    second: main_menu_trees_0
-  - first:
-      213: -5758631999850219507
-    second: main_menu_trees_1
-  - first:
-      213: -8715946645125892820
-    second: main_menu_trees_2
-  - first:
-      213: 1384174812170665406
-    second: main_menu_trees_3
-  - first:
-      213: -3300475106788170630
-    second: main_menu_trees_4
-  - first:
-      213: 9212930286143273361
-    second: main_menu_trees_5
-  - first:
-      213: 3619586108353057680
-    second: main_menu_trees_6
-  - first:
-      213: -8162297613664668597
-    second: main_menu_trees_7
-  - first:
-      213: -7474417085513651895
-    second: main_menu_trees_8
-  - first:
-      213: 4989743940031620729
-    second: main_menu_trees_9
-  - first:
-      213: -5048733021563427546
-    second: main_menu_trees_10
-  - first:
-      213: -7114635063279720215
-    second: main_menu_trees_11
-  - first:
-      213: 829030870574256932
-    second: main_menu_trees_12
-  - first:
-      213: 7696445751208762501
-    second: main_menu_trees_13
-  - first:
-      213: 8287206017829505410
-    second: main_menu_trees_14
-  - first:
-      213: 3393047874791910903
-    second: main_menu_trees_15
-  - first:
-      213: -6005863136395770220
-    second: main_menu_trees_16
-  - first:
-      213: 5618964705067874880
-    second: main_menu_trees_17
-  - first:
-      213: -5058513061230950821
-    second: main_menu_trees_18
-  - first:
-      213: 1983265937814448691
-    second: main_menu_trees_19
-  - first:
-      213: -4869088042417918530
-    second: main_menu_trees_20
+      213: 3836954968553550457
+    second: sky_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,15 +40,15 @@ TextureImporter:
     filterMode: 0
     aniso: 1
     mipBias: 0
-    wrapU: 1
-    wrapV: 1
-    wrapW: 1
+    wrapU: 0
+    wrapV: 0
+    wrapW: 0
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
   spriteMode: 2
   spriteExtrude: 1
-  spriteMeshType: 1
+  spriteMeshType: 0
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 100
@@ -173,7 +113,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: main_menu_trees_0
+      name: sky_0
       rect:
         serializedVersion: 2
         x: 0
@@ -181,15 +121,15 @@ TextureImporter:
         width: 320
         height: 180
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 18eaa73181f21abd0800000000000000
-      internalID: -2620761727700390271
+      spriteID: 972fdcff63a9f3530800000000000000
+      internalID: 3836954968553550457
       vertices: []
       indices: 
       edges: []
@@ -198,7 +138,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: de95a5dccdf2a7448ab82d8c14153fdb
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -208,27 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      main_menu_trees_0: -2620761727700390271
-      main_menu_trees_1: -5758631999850219507
-      main_menu_trees_10: -5048733021563427546
-      main_menu_trees_11: -7114635063279720215
-      main_menu_trees_12: 829030870574256932
-      main_menu_trees_13: 7696445751208762501
-      main_menu_trees_14: 8287206017829505410
-      main_menu_trees_15: 3393047874791910903
-      main_menu_trees_16: -6005863136395770220
-      main_menu_trees_17: 5618964705067874880
-      main_menu_trees_18: -5058513061230950821
-      main_menu_trees_19: 1983265937814448691
-      main_menu_trees_2: -8715946645125892820
-      main_menu_trees_20: -4869088042417918530
-      main_menu_trees_3: 1384174812170665406
-      main_menu_trees_4: -3300475106788170630
-      main_menu_trees_5: 9212930286143273361
-      main_menu_trees_6: 3619586108353057680
-      main_menu_trees_7: -8162297613664668597
-      main_menu_trees_8: -7474417085513651895
-      main_menu_trees_9: 4989743940031620729
+      sky_0: 3836954968553550457
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
