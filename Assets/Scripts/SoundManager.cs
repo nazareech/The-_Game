@@ -7,6 +7,7 @@ public class SoundManager : MonoBehaviour
     [SerializeField] private Slider volumeSlider;
     [SerializeField] private Image soundOnIcon;
     [SerializeField] private Image soundOffIcon;
+
     [SerializeField] private GameObject blocSliderValue;
 
     private bool muted;
