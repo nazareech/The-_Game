@@ -45,7 +45,6 @@ public class Pause_menu : MonoBehaviour
     }
     public void Pause()
     {
-
         audioSource.Pause();
         // pauseMusic.SetActive(false);
         pauseMenuUI.SetActive(true);

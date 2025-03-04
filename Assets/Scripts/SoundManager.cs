@@ -1,92 +1,51 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.UI;
 
 public class SoundManager : MonoBehaviour
 {
-    [SerializeField] Slider volumeSlider;
+    [SerializeField] private Slider volumeSlider;
+    [SerializeField] private Image soundOnIcon;
+    [SerializeField] private Image soundOffIcon;
+    [SerializeField] private GameObject blocSliderValue;
 
-    [SerializeField] Image soundOnIcon;
-    [SerializeField] Image soundOffIcon;
-    private bool muted = false;
+    private bool muted;
 
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        if (!PlayerPrefs.HasKey("musicVolume"))
-        {
-            PlayerPrefs.SetFloat("musicVolume", 1);
-        }
-        else if (!PlayerPrefs.HasKey("muted"))
-        {
-            PlayerPrefs.SetInt("muted", 0);
-            
-        }
-        else if (PlayerPrefs.HasKey("muted"))
-        {
-            LoadButtonMusic();
-        }
-        else if (PlayerPrefs.HasKey("musicVolume"))
-        {
-            LoadMusic();
-        }
-        UpdateButtonIcon();
-        AudioListener.pause = muted;
+        // Завантаження налаштувань або встановлення значень за замовчуванням
+        volumeSlider.value = PlayerPrefs.GetFloat("musicVolume", 1f);
+        muted = PlayerPrefs.GetInt("muted", 0) == 1;
+
+        ApplySettings();
     }
 
     public void OnButtonPress()
     {
-        if (muted == false)
-        {
-            muted = true;
-            AudioListener.pause = true;
-        }
-        else
-        {
-            muted = false;
-            AudioListener.pause = false;
-        }
-        Save();
-        UpdateButtonIcon();
+        muted = !muted; // Інвертуємо mute
+        ApplySettings();
+        SaveSettings();
     }
 
-    private void UpdateButtonIcon()
-    {
-        if (muted == false)
-        {
-            soundOnIcon.enabled = true;
-            soundOffIcon.enabled = false;
-        }
-        else
-        {
-            soundOnIcon.enabled = false;
-            soundOffIcon.enabled = true;
-        }
-    }
-
-   
     public void ChangeVolume()
     {
-        //---------
         AudioListener.volume = volumeSlider.value;
-        Save();
+        SaveSettings();
     }
 
-    private void LoadButtonMusic()
+    private void ApplySettings()
     {
-        muted = PlayerPrefs.GetInt("muted") == 1;
-    }
-    private void LoadMusic()
-    {        
-        volumeSlider.value = PlayerPrefs.GetFloat("musicVolume");
+        AudioListener.pause = muted;
+        soundOnIcon.enabled = !muted;
+        soundOffIcon.enabled = muted;
+
+        blocSliderValue.SetActive(muted);
     }
 
-    private void Save()
+    private void SaveSettings()
     {
-        PlayerPrefs.SetFloat("muted", muted ? 1 : 0);
-        //-----------
         PlayerPrefs.SetFloat("musicVolume", volumeSlider.value);
+        PlayerPrefs.SetInt("muted", muted ? 1 : 0);
+        PlayerPrefs.Save(); // Зберігаємо налаштування
     }
 }
