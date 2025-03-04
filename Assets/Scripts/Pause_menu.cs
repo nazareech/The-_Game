@@ -64,6 +64,7 @@ public class Pause_menu : MonoBehaviour
 
     public void Go_to_Menu()
     {
+        Time.timeScale = 1f; // Відновлюємо нормальний час
         SceneManager.LoadScene("_Menu");
     }
 }
