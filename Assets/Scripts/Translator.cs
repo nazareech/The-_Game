@@ -14,102 +14,114 @@ public class Translator : MonoBehaviour
     #region Тексти локалізації
     private static string[,] LineText =
     {   
-        // 🇺🇦 Українська
-        #region UKRAINIAN 
-        {
-            "Почати гру",       // 0 - Text ID
-            "Налаштування",     // 1 - Text ID
-            "Вихід",            // 2 - Text ID
-            "Мова",             // 3 - Text ID
-            "Ввімкнути музику", // 4 - Text ID
-            "Гучність музики"   // 5 - Text ID
-        },
-        #endregion
-        
-        // 🇵🇱 Польська
-        #region POLISH
-        {
-            "Rozpocznij grę",   // 0 - Text ID
-            "Ustawienia",       // 1 - Text ID
-            "Wyjście",          // 2 - Text ID
-            "Język",            // 3 - Text ID
-            "Włączyc muzykę",   // 4 - Text ID
-            "Głośność muzyki"   // 5 - Text ID
-        },  
-        #endregion
+      // 🇺🇦 Українська
+      #region UKRAINIAN 
+      {
+          "Почати гру",       // 0 - Text ID
+          "Налаштування",     // 1 - Text ID
+          "Вихід",            // 2 - Text ID
+          "Мова",             // 3 - Text ID
+          "Вимкнути/Вимкнути музику", // 4 - Text ID
+          "Музика"   // 5 - Text ID
+      },
+      #endregion
+      
+      // 🇵🇱 Польська
+      #region POLISH
+      {
+          "Rozpocznij grę",   // 0 - Text ID
+          "Ustawienia",       // 1 - Text ID
+          "Wyjście",          // 2 - Text ID
+          "Język",            // 3 - Text ID
+          "Włącz/Wyłącz muzykę",   // 4 - Text ID
+          "Muzyka"   // 5 - Text ID
+      },  
+      #endregion
 
-        // 🇬🇧 Англійська
-        #region ENGLISH
-        {
-            "Play",         // 0 - Text ID
-            "Options",      // 1 - Text ID
-            "Quit",         // 2 - Text ID
-            "Language",     // 3 - Text ID
-            "Enable Music", // 4 - Text ID
-            "Music Volume"  // 5 - Text ID
-        },
-        #endregion
+      // 🇬🇧 Англійська
+      #region ENGLISH
+      {
+          "Play",         // 0 - Text ID
+          "Options",      // 1 - Text ID
+          "Quit",         // 2 - Text ID
+          "Language",     // 3 - Text ID
+          "Toggle Music", // 4 - Text ID
+          "Music"  // 5 - Text ID
+      },
+      #endregion
 
-        // 🇨🇳 Китайська (спрощена)
-        #region CHINESE SIMPLIFIED
-        {
-            "开始游戏",     // 0 - Start Game
-            "选项",        // 1 - Options
-            "退出",        // 2 - Quit
-            "语言",        // 3 - Language
-            "启用音乐",     // 4 - Enable Music
-            "音乐音量"      // 5 - Music Volume
-        },
-        #endregion
+      // 🇨🇳 Китайська (спрощена)
+      #region CHINESE SIMPLIFIED
+      {
+          "开始游戏",     // 0 - Start Game
+          "选项",        // 1 - Options
+          "退出",        // 2 - Quit
+          "语言",        // 3 - Language
+          "切换音乐",     // 4 - Toggle Music
+          "音乐"      // 5 - Music
+      },
+      #endregion
 
-        // 🇪🇸 Іспанська
-        #region SPANISH
-        {
-            "Jugar",                // 0 - Text ID
-            "Opciones",             // 1 - Text ID
-            "Salir",                // 2 - Text ID
-            "Idioma",               // 3 - Text ID
-            "Activar música",       // 4 - Text ID
-            "Volumen de la música"  // 5 - Text ID
-        },
-        #endregion
+      // 🇪🇸 Іспанська
+      #region SPANISH
+      {
+          "Jugar",                // 0 - Text ID
+          "Opciones",             // 1 - Text ID
+          "Salir",                // 2 - Text ID
+          "Idioma",               // 3 - Text ID
+          "Activar/Desactivar música",       // 4 - Text ID
+          "Música"  // 5 - Text ID
+      },
+      #endregion
 
-        // 🇫🇷 Французька
-        #region FRENCH
-        {
-            "Jouer",                // 0 - Text ID
-            "Options",              // 1 - Text ID
-            "Quitter",              // 2 - Text ID
-            "Langue",               // 3 - Text ID
-            "Activer la musique",   // 4 - Text ID
-            "Volume de la musique"  // 5 - Text ID
-        },
-        #endregion
+      // 🇫🇷 Французька
+      #region FRENCH
+      {
+          "Jouer",                // 0 - Text ID
+          "Options",              // 1 - Text ID
+          "Quitter",              // 2 - Text ID
+          "Langue",               // 3 - Text ID
+          "Activer/Désactiver la musique",   // 4 - Text ID
+          "Musique"  // 5 - Text ID
+      },
+      #endregion
 
-        // 🇩🇪 Німецька
-        #region GERMAN
-        {
-            "Spielen",          // 0 - Text ID
-            "Optionen",         // 1 - Text ID
-            "Beenden",          // 2 - Text ID
-            "Sprache",          // 3 - Text ID
-            "Musik aktivieren", // 4 - Text ID
-            "Musiklautstärke"   // 5 - Text ID
-        },
-        #endregion
+      // 🇩🇪 Німецька
+      #region GERMAN
+      {
+          "Spielen",          // 0 - Text ID
+          "Optionen",         // 1 - Text ID
+          "Beenden",          // 2 - Text ID
+          "Sprache",          // 3 - Text ID
+          "Musik ein/aus", // 4 - Text ID
+          "Musik"   // 5 - Text ID
+      },
+      #endregion
 
-        // 🇮🇹 Італійська
-        #region ITALIAN
-        {
-            "Gioca",                // 0 - Text ID
-            "Opzioni",              // 1 - Text ID
-            "Esci",                 // 2 - Text ID
-            "Lingua",               // 3 - Text ID
-            "Attiva la musica",     // 4 - Text ID
-            "Volume della musica"   // 5 - Text ID
-        },
-        #endregion
-    };
+      // 🇮🇹 Італійська
+      #region ITALIAN
+      {
+          "Gioca",                // 0 - Text ID
+          "Opzioni",              // 1 - Text ID
+          "Esci",                 // 2 - Text ID
+          "Lingua",               // 3 - Text ID
+          "Attiva/Disattiva musica",     // 4 - Text ID
+          "Musica"   // 5 - Text ID
+      },
+      #endregion
+      
+      // 🇹🇷 Турецька
+      #region TURKISH
+      {
+          "Oyna",               // 0 - Text ID
+          "Ayarlar",            // 1 - Text ID
+          "Çıkış",               // 2 - Text ID
+          "Dil",                // 3 - Text ID
+          "Müzik Aç/Kapat",    // 4 - Text ID
+          "Müzik"   // 5 - Text ID
+      },
+      #endregion
+  };
     #endregion
 
     static public void Select_language(int id)
