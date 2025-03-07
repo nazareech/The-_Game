@@ -4113,7 +4113,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1432594038}
+      - m_Target: {fileID: 1737948248}
         m_TargetAssemblyTypeName: SoundManager, Assembly-CSharp
         m_MethodName: OnButtonPress
         m_Mode: 1
@@ -4502,7 +4502,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1432594036}
   - component: {fileID: 1432594037}
-  - component: {fileID: 1432594038}
   m_Layer: 5
   m_Name: Slider
   m_TagString: Untagged
@@ -4583,7 +4582,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1432594038}
+      - m_Target: {fileID: 1737948248}
         m_TargetAssemblyTypeName: SoundManager, Assembly-CSharp
         m_MethodName: ChangeVolume
         m_Mode: 1
@@ -4595,22 +4594,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &1432594038
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1432594035}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fdaade35bda97324a97c760d957b4a7f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  volumeSlider: {fileID: 1432594037}
-  soundOnIcon: {fileID: 451453721}
-  soundOffIcon: {fileID: 200982556}
-  blocSliderValue: {fileID: 98718771}
 --- !u!1 &1639722128
 GameObject:
   m_ObjectHideFlags: 0
@@ -4783,6 +4766,54 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1652834005}
   m_CullTransparentMesh: 1
+--- !u!1 &1737948247
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1737948249}
+  - component: {fileID: 1737948248}
+  m_Layer: 0
+  m_Name: AudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1737948248
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1737948247}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdaade35bda97324a97c760d957b4a7f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  volumeSlider: {fileID: 1432594037}
+  soundOnIcon: {fileID: 451453721}
+  soundOffIcon: {fileID: 200982556}
+  blocSliderValue: {fileID: 98718771}
+--- !u!4 &1737948249
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1737948247}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 914.60095, y: 1428.2056, z: -8.351904}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1777844146
 GameObject:
   m_ObjectHideFlags: 0
@@ -6243,3 +6274,4 @@ SceneRoots:
   - {fileID: 759605545}
   - {fileID: 362433651}
   - {fileID: 1107538024}
+  - {fileID: 1737948249}
