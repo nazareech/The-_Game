@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      toxic_gas_0: 6673853969211249103
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
