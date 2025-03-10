@@ -29,11 +29,6 @@ public class GUN : MonoBehaviour
             Shoot();
         }
 
-        //if (Input.GetMouseButton(0))
-        //{
-        //    Shoot();
-        //}    
-
         GunRotation();
     }
 
