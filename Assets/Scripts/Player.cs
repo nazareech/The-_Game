@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Player : MonoBehaviour
 {
@@ -29,6 +29,8 @@ public class Player : MonoBehaviour
         Vector2 moveInput = new Vector2(Input.GetAxisRaw("Horizontal"),
             Input.GetAxisRaw("Vertical"));
 
+        PlayerRotation();
+
         if (moveInput != Vector2.zero)
         {
             anim.SetBool("run", true);
@@ -38,23 +40,28 @@ public class Player : MonoBehaviour
             anim.SetBool("run", false);
         }
 
-        ScalePalyer(moveInput.x); // ���� �������� ����
+        //ScalePalyer(moveInput.x); // Зміна напрямку руху
 
         moveVelocity = moveInput.normalized * speed;
 
         rb.MovePosition(rb.position + moveVelocity * Time.fixedDeltaTime);
     }
 
-    void ScalePalyer(float x)
+    void PlayerRotation()
     {
-        if (x == 1)
-        {
-           spr.flipX = false;
-        }
-        else if (x == -1)
-        {
-           spr.flipX = true;
+        Vector2 dir = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
 
+        float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+
+        // Перевертання пістолета
+        if (dir.x < 0) // Якщо курсор ліворуч від пістолета
+        {
+            spr.flipX = true; // Перевертаємо спрайт по вертикалі
+        }
+        else if (dir.x > 0) // Якщо курсор праворуч від пістолета
+        {
+            spr.flipX = false; // Повертаємо спрайт у нормальний стан
         }
     }
+    
 }

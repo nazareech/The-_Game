@@ -11,13 +11,23 @@ public class GUN : MonoBehaviour
     [SerializeField] GameObject gunObject; // Об'єкт, до якого прив'язаний Animator
     private Animator anim;
 
+    [SerializeField] GameObject Fire;
+    private Animator fireAnim;
+    private SpriteRenderer fireRender;
+
     public float fireRate = 0.2f; // Затримка між пострілами
     private float nextFireTime = 0f;
+
+    private SpriteRenderer gunRender;// Для перевертання спрайту
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        fireAnim = Fire.GetComponent<Animator>();
+        fireRender = Fire.GetComponent<SpriteRenderer>();
+
         anim = gunObject.GetComponent<Animator>(); // Отримуємо компонент Animator
+        gunRender = gunObject.GetComponent<SpriteRenderer>();
     }
 
     // Update is called once per frame
@@ -28,6 +38,7 @@ public class GUN : MonoBehaviour
             nextFireTime = Time.time + fireRate; // Оновлюємо час наступного пострілу
             Shoot();
             anim.SetTrigger("Shoot"); // Запускаємо анімацію стрільби
+            fireAnim.SetTrigger("Shoot");
         } 
 
         GunRotation();
@@ -41,6 +52,16 @@ public class GUN : MonoBehaviour
 
         Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.forward);
         transform.rotation = Quaternion.Slerp(transform.rotation, rotation, rotationSpeed * Time.deltaTime);
+
+        // Перевертання пістолета
+        if (dir.x < 0 ) // Якщо курсор ліворуч від пістолета
+        {
+            gunRender.flipY = true; // Перевертаємо спрайт по вертикалі
+        }
+        else if (dir.x > 0) // Якщо курсор праворуч від пістолета
+        {
+             gunRender.flipY = false; // Повертаємо спрайт у нормальний стан
+        }
     }
 
     void Shoot()
