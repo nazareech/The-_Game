@@ -1,23 +1,23 @@
-using UnityEngine;
+п»їusing UnityEngine;
 
 public class Sniper : MonoBehaviour
 {
-    [SerializeField] float rotationSpeed = 5f; // Швидкість повороту
-    [SerializeField] GameObject bullet;        // Префаб кулі
-    [SerializeField] Transform shootPosition;  // Позиція виліту куль
+    [SerializeField] float rotationSpeed = 5f; // РЁРІРёРґРєС–СЃС‚СЊ РїРѕРІРѕСЂРѕС‚Сѓ
+    [SerializeField] GameObject bullet;        // РџСЂРµС„Р°Р± РєСѓР»С–
+    [SerializeField] Transform shootPosition;  // РџРѕР·РёС†С–СЏ РІРёР»С–С‚Сѓ РєСѓР»СЊ
 
-    [SerializeField] GameObject Fire;          // Об'єкт для анімації вогню
+    [SerializeField] GameObject Fire;          // РћР±'С”РєС‚ РґР»СЏ Р°РЅС–РјР°С†С–С— РІРѕРіРЅСЋ
     private Animator fireAnim;
-    private Animator gunAnim;                 // Animator для зброї (тепер private)
+    private Animator gunAnim;                 // Animator РґР»СЏ Р·Р±СЂРѕС— (С‚РµРїРµСЂ private)
 
-    public float fireRate = 0.2f;              // Затримка між пострілами
+    public float fireRate = 0.2f;              // Р—Р°С‚СЂРёРјРєР° РјС–Р¶ РїРѕСЃС‚СЂС–Р»Р°РјРё
     private float nextFireTime = 0f;
 
-    private SpriteRenderer gunRender;          // Для перевертання спрайту
+    private SpriteRenderer gunRender;          // Р”Р»СЏ РїРµСЂРµРІРµСЂС‚Р°РЅРЅСЏ СЃРїСЂР°Р№С‚Сѓ
 
     void Start()
     {
-        // Отримуємо компонент Animator з поточного об'єкта
+        // РћС‚СЂРёРјСѓС”РјРѕ РєРѕРјРїРѕРЅРµРЅС‚ Animator Р· РїРѕС‚РѕС‡РЅРѕРіРѕ РѕР±'С”РєС‚Р°
         gunAnim = GetComponent<Animator>();
         if (gunAnim == null)
         {
@@ -42,57 +42,58 @@ public class Sniper : MonoBehaviour
 
     void Update()
     {
+        GunRotation();
+
         if (Input.GetMouseButton(0) && Time.time >= nextFireTime)
         {
-            nextFireTime = Time.time + fireRate; // Оновлюємо час наступного пострілу
+            nextFireTime = Time.time + fireRate; // РћРЅРѕРІР»СЋС”РјРѕ С‡Р°СЃ РЅР°СЃС‚СѓРїРЅРѕРіРѕ РїРѕСЃС‚СЂС–Р»Сѓ
             Shoot();
-            gunAnim.SetTrigger("Shoot");    // Запускаємо анімацію стрільби
-            fireAnim.SetTrigger("Shoot");   // Запускаємо анімацію вогню
+            gunAnim.SetTrigger("Shoot");    // Р—Р°РїСѓСЃРєР°С”РјРѕ Р°РЅС–РјР°С†С–СЋ СЃС‚СЂС–Р»СЊР±Рё
+            fireAnim.SetTrigger("Shoot");   // Р—Р°РїСѓСЃРєР°С”РјРѕ Р°РЅС–РјР°С†С–СЋ РІРѕРіРЅСЋ
         }
-
-        GunRotation();
+        
     }
 
     void GunRotation()
     {
-        // Отримуємо різницю між позицією курсора та позицією зброї
+        // РћС‚СЂРёРјСѓС”РјРѕ СЂС–Р·РЅРёС†СЋ РјС–Р¶ РїРѕР·РёС†С–С”СЋ РєСѓСЂСЃРѕСЂР° С‚Р° РїРѕР·РёС†С–С”СЋ Р·Р±СЂРѕС—
         Vector2 dir = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
-        dir.Normalize(); // Нормалізуємо вектор
+        //dir.Normalize(); // РќРѕСЂРјР°Р»С–Р·СѓС”РјРѕ РІРµРєС‚РѕСЂ
 
-        // Обчислюємо кут повороту
+        // РћР±С‡РёСЃР»СЋС”РјРѕ РєСѓС‚ РїРѕРІРѕСЂРѕС‚Сѓ
         float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
 
-        // Створюємо кватерніон для повороту
-        Quaternion targetRotation = Quaternion.Euler(0f, 0f, angle);
+        // РЎС‚РІРѕСЂСЋС”РјРѕ РєРІР°С‚РµСЂРЅС–РѕРЅ РґР»СЏ РїРѕРІРѕСЂРѕС‚Сѓ
+        Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.forward);
 
-        // Плавний поворот
-        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+        // РџР»Р°РІРЅРёР№ РїРѕРІРѕСЂРѕС‚
+        transform.rotation = Quaternion.Slerp(transform.rotation, rotation, rotationSpeed * Time.deltaTime);
 
-        // Перевертання спрайту
-        if (dir.x < 0) // Якщо курсор ліворуч від зброї
+        // РџРµСЂРµРІРµСЂС‚Р°РЅРЅСЏ СЃРїСЂР°Р№С‚Сѓ
+        if (dir.x < 0) // РЇРєС‰Рѕ РєСѓСЂСЃРѕСЂ Р»С–РІРѕСЂСѓС‡ РІС–Рґ Р·Р±СЂРѕС—
         {
-            gunRender.flipY = true; // Перевертаємо спрайт по вертикалі
+            gunRender.flipY = true; // РџРµСЂРµРІРµСЂС‚Р°С”РјРѕ СЃРїСЂР°Р№С‚ РїРѕ РІРµСЂС‚РёРєР°Р»С–
         }
-        else // Якщо курсор праворуч від зброї
+        else // РЇРєС‰Рѕ РєСѓСЂСЃРѕСЂ РїСЂР°РІРѕСЂСѓС‡ РІС–Рґ Р·Р±СЂРѕС—
         {
-            gunRender.flipY = false; // Повертаємо спрайт у нормальний стан
+            gunRender.flipY = false; // РџРѕРІРµСЂС‚Р°С”РјРѕ СЃРїСЂР°Р№С‚ Сѓ РЅРѕСЂРјР°Р»СЊРЅРёР№ СЃС‚Р°РЅ
         }
     }
 
     void Shoot()
     {
-        // Отримуємо поточний кут стрільби
+        // РћС‚СЂРёРјСѓС”РјРѕ РїРѕС‚РѕС‡РЅРёР№ РєСѓС‚ СЃС‚СЂС–Р»СЊР±Рё
         float currentAngle = Mathf.Atan2(shootPosition.up.y, shootPosition.up.x) * Mathf.Rad2Deg;
 
-        // Створюємо кут стрільби без розбігу
+        // РЎС‚РІРѕСЂСЋС”РјРѕ РєСѓС‚ СЃС‚СЂС–Р»СЊР±Рё Р±РµР· СЂРѕР·Р±С–РіСѓ
         Quaternion shootRotation = Quaternion.Euler(0, 0, currentAngle);
 
-        // Створюємо патрон з точним кутом
+        // РЎС‚РІРѕСЂСЋС”РјРѕ РїР°С‚СЂРѕРЅ Р· С‚РѕС‡РЅРёРј РєСѓС‚РѕРј
         Instantiate(bullet, shootPosition.position, shootRotation);
         Debug.Log("'BemB! Sniper shot!'");
 
-        // Додатково: можна додати ефект віддачі або звук пострілу
-        // recoilAnim.SetTrigger("Shoot"); // Анімація віддачі
-        // audioSource.PlayOneShot(shootSound); // Звук пострілу
+        // Р”РѕРґР°С‚РєРѕРІРѕ: РјРѕР¶РЅР° РґРѕРґР°С‚Рё РµС„РµРєС‚ РІС–РґРґР°С‡С– Р°Р±Рѕ Р·РІСѓРє РїРѕСЃС‚СЂС–Р»Сѓ
+        // recoilAnim.SetTrigger("Shoot"); // РђРЅС–РјР°С†С–СЏ РІС–РґРґР°С‡С–
+        // audioSource.PlayOneShot(shootSound); // Р—РІСѓРє РїРѕСЃС‚СЂС–Р»Сѓ
     }
 }

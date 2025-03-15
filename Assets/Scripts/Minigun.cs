@@ -1,28 +1,43 @@
-using UnityEngine;
+п»їusing UnityEngine;
+using UnityEngine.UI;
 
 public class Minigun : MonoBehaviour
 {
-    [SerializeField] float rotationSpeed = 5f;  // Швидкість повороту
-    [SerializeField] float spreadAngle = 5f;    // Кут розбігу патронів у градусах
+    [SerializeField] float rotationSpeed = 5f;  // РЁРІРёРґРєС–СЃС‚СЊ РїРѕРІРѕСЂРѕС‚Сѓ
+    [SerializeField] float spreadAngle = 5f;    // РљСѓС‚ СЂРѕР·Р±С–РіСѓ РїР°С‚СЂРѕРЅС–РІ Сѓ РіСЂР°РґСѓСЃР°С…
 
     [SerializeField] GameObject bullet;
-    [SerializeField] Transform shootPosition;   // Позиція виліту куль
+    [SerializeField] Transform shootPosition;   // РџРѕР·РёС†С–СЏ РІРёР»С–С‚Сѓ РєСѓР»СЊ
 
-    [SerializeField] GameObject Fire;           // Об'єкт для анімації вогню
+    [SerializeField] GameObject Fire;           // РћР±'С”РєС‚ РґР»СЏ Р°РЅС–РјР°С†С–С— РІРѕРіРЅСЋ
     private Animator fireAnim;
-    private Animator gunAnim;                   // Animator для мінігана
+    private Animator gunAnim;                   // Animator РґР»СЏ РјС–РЅС–РіР°РЅР°
     private SpriteRenderer fireRender;
 
-    public float fireRate = 0.2f;              // Затримка між пострілами
+    public float fireRate = 0.2f;              // Р—Р°С‚СЂРёРјРєР° РјС–Р¶ РїРѕСЃС‚СЂС–Р»Р°РјРё
     private float nextFireTime = 0f;
 
-    public float offset;                       // Додатковий кут для корекції повороту
+    public float offset;                       // Р”РѕРґР°С‚РєРѕРІРёР№ РєСѓС‚ РґР»СЏ РєРѕСЂРµРєС†С–С— РїРѕРІРѕСЂРѕС‚Сѓ
 
-    private SpriteRenderer gunRender;          // Для перевертання спрайту
+    private SpriteRenderer gunRender;          // Р”Р»СЏ РїРµСЂРµРІРµСЂС‚Р°РЅРЅСЏ СЃРїСЂР°Р№С‚Сѓ
+
+    //------------------------------------------------------------------------
+    [SerializeField] float maxHeat = 100f;          // Max temperature
+    [SerializeField] float heatPerShoot = 10f;      // Temperature for one shoot
+    [SerializeField] float coolingRate = 5f;        // Colding speed
+    [SerializeField] float overheatCooldown = 3f;  // Colding speed after overheating
+
+    private float currentHeat = 0f;         // Current tempetature
+    private bool isOverheated = false;      // IS Minign overheat 
+    private float overheatTimer = 0f;       // Timer for colding
+
+    [SerializeField] Slider heatSlider;     // РЎР»Р°Р№РґРµСЂ РґР»СЏ РІС–РґРѕР±СЂР°Р¶РµРЅРЅСЏ С‚РµРјРїРµРµСЂР°С‚СѓСЂРё
+
+    //------------------------------------------------------------------------
 
     void Start()
     {
-        // Отримуємо компонент Animator з поточного об'єкта
+        // РћС‚СЂРёРјСѓС”РјРѕ РєРѕРјРїРѕРЅРµРЅС‚ Animator Р· РїРѕС‚РѕС‡РЅРѕРіРѕ РѕР±'С”РєС‚Р°
         gunAnim = GetComponent<Animator>();
         if (Fire != null)
         {
@@ -48,34 +63,76 @@ public class Minigun : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetMouseButton(0) && Time.time >= nextFireTime)
+        if (heatSlider != null)
         {
-            nextFireTime = Time.time + fireRate;
-            Shoot();
-            gunAnim.SetTrigger("Shoot");
-            fireAnim.SetTrigger("Shoot");
+            heatSlider.value = currentHeat;// maxHeat; //+= currentHeat;
         }
 
+        if (isOverheated)
+        {
+            // РЇРєС‰Рѕ РјС–РЅС–РіР°РЅ РїРµСЂРµРіСЂС–С‚РёР№, РѕС‡С–РєСѓС”РјРѕ, РїРѕРєРё РІС–РЅ РѕС…РѕР»РѕРЅРµ
+            overheatTimer -= Time.deltaTime;
+            if (overheatTimer < 0f)
+            {
+                isOverheated = false;
+                currentHeat = 0f;   // Reset temperature after colding
+            }
+        }
+        else
+        {
+            // РЇРєС‰Рѕ РјС–РЅС–РіР°РЅ РЅРµ РїРµСЂРµРіСЂС–С‚РёР№, РјРѕР¶РЅР° СЃС‚СЂС–Р»СЏС‚Рё
+            if (Input.GetMouseButton(0))
+            {
+                if (Time.time >= nextFireTime)
+                {
+                    nextFireTime = Time.time + fireRate;
+                    Shoot();
+                    gunAnim.SetTrigger("Shoot");
+                    fireAnim.SetTrigger("Shoot");
+
+                    // Р—Р±С–Р»СЊС€СѓС”РјРѕ С‚РµРјРїРµСЂР°С‚СѓСЂСѓ
+                    currentHeat += heatPerShoot;
+                    if (currentHeat >= maxHeat)
+                    {
+                        Overheat();
+                    }
+                }                
+            }
+
+            // РћС…РѕР»РѕРґР¶РµРЅРЅСЏ, СЏРєС‰Рѕ РЅРµ СЃС‚СЂС–Р»СЏС”РјРѕ
+            if (!Input.GetMouseButton(0))
+            {
+                currentHeat -= coolingRate * Time.deltaTime;
+                currentHeat = Mathf.Max(currentHeat, 0f); // РќРµ РґР°С”РјРѕ С‚РµРјРїРµСЂР°С‚СѓСЂС– РѕРїСѓСЃС‚РёС‚РёСЃСЏ РЅРёР¶С‡Рµ 0
+            }
+        }
         GunRotation();
+    }
+
+    void Overheat()
+    {
+        isOverheated = true;
+        overheatTimer = overheatCooldown;
+        Debug.Log("Minigun overheated! Cooling down...");
     }
 
     void GunRotation()
     {
-        // Отримуємо різницю між позицією курсора та позицією мінігана
+        // РћС‚СЂРёРјСѓС”РјРѕ СЂС–Р·РЅРёС†СЋ РјС–Р¶ РїРѕР·РёС†С–С”СЋ РєСѓСЂСЃРѕСЂР° С‚Р° РїРѕР·РёС†С–С”СЋ РјС–РЅС–РіР°РЅР°
         Vector3 difference = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
-        difference.Normalize(); // Нормалізуємо вектор
+        difference.Normalize(); // РќРѕСЂРјР°Р»С–Р·СѓС”РјРѕ РІРµРєС‚РѕСЂ
 
-        // Обчислюємо кут повороту
+        // РћР±С‡РёСЃР»СЋС”РјРѕ РєСѓС‚ РїРѕРІРѕСЂРѕС‚Сѓ
         float rotateZ = Mathf.Atan2(difference.y, difference.x) * Mathf.Rad2Deg;
 
-        // Цільовий поворот з урахуванням offset
+        // Р¦С–Р»СЊРѕРІРёР№ РїРѕРІРѕСЂРѕС‚ Р· СѓСЂР°С…СѓРІР°РЅРЅСЏРј offset
         Quaternion targetRotation = Quaternion.Euler(0f, 0f, rotateZ + offset);
 
-        // Плавний поворот
+        // РџР»Р°РІРЅРёР№ РїРѕРІРѕСЂРѕС‚
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
 
 
-        // Перевертання спрайту
+        // РџРµСЂРµРІРµСЂС‚Р°РЅРЅСЏ СЃРїСЂР°Р№С‚Сѓ
         if (difference.x < 0)
         {
             gunRender.flipY = true;
@@ -88,17 +145,17 @@ public class Minigun : MonoBehaviour
 
     void Shoot()
     {
-        // Отримуємо поточний кут стрільби
+        // РћС‚СЂРёРјСѓС”РјРѕ РїРѕС‚РѕС‡РЅРёР№ РєСѓС‚ СЃС‚СЂС–Р»СЊР±Рё
         float currentAngle = Mathf.Atan2(shootPosition.up.y, shootPosition.up.x) * Mathf.Rad2Deg;
 
-        // Додаємо випадкове відхилення в межах розбігу
+        // Р”РѕРґР°С”РјРѕ РІРёРїР°РґРєРѕРІРµ РІС–РґС…РёР»РµРЅРЅСЏ РІ РјРµР¶Р°С… СЂРѕР·Р±С–РіСѓ
         float randomSpread = Random.Range(-spreadAngle, spreadAngle);
         float newAngle = currentAngle + randomSpread;
 
-        // Створюємо новий кут стрільби
+        // РЎС‚РІРѕСЂСЋС”РјРѕ РЅРѕРІРёР№ РєСѓС‚ СЃС‚СЂС–Р»СЊР±Рё
         Quaternion spreadRotation = Quaternion.Euler(0, 0, newAngle);
 
-        // Створюємо патрон з новим кутом
+        // РЎС‚РІРѕСЂСЋС”РјРѕ РїР°С‚СЂРѕРЅ Р· РЅРѕРІРёРј РєСѓС‚РѕРј
         Instantiate(bullet, shootPosition.position, spreadRotation);
         Debug.Log("'Press BaBah!'");
     }

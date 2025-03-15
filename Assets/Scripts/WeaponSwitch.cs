@@ -1,10 +1,13 @@
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.UI;
 
 public class WeaponSwitch : MonoBehaviour
 {
 
-    private Animator anim;          // Animator ��� ������� ����
+    private Animator anim;          // Animator для активної зброї
     public int weaponSwitch = 0;
+
+    [SerializeField] Slider heatSlider; // Слайдер перегріву мінігану
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -64,13 +67,13 @@ public class WeaponSwitch : MonoBehaviour
         {
             if (i == weaponSwitch)
             {
-                // �������� Animator ��� ������� ����
+                // Отримуємо Animator для активної зброї
                 anim = weapon.GetComponent<Animator>();
 
-                // �������� ������ �����
+                // Активуємо обрану зброю
                 weapon.gameObject.SetActive(true);
 
-                // ��������� �������� ���������
+                // Запускаємо анімацію діставання
                 if (anim != null)
                 {
                     anim.SetTrigger("TakeOut");
@@ -79,10 +82,16 @@ public class WeaponSwitch : MonoBehaviour
                 {
                     Debug.LogWarning("Animator component not found on the selected weapon!");
                 }
+
+                // Включаємо або вимикаємо слайдер перегріву в залежності від активної зброї
+                if (heatSlider != null)
+                {
+                    heatSlider.gameObject.SetActive(weapon.CompareTag("Minigun")); // Припустимо, що мініган має тег "Minigun"
+                }
             }
             else
             {
-                // �������� ���� ����
+                // Вимикаємо інші зброї
                 weapon.gameObject.SetActive(false);
             }
             i++;
