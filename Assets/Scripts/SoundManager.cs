@@ -1,4 +1,4 @@
-using UnityEngine;
+п»їusing UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.UI;
 
@@ -14,7 +14,7 @@ public class SoundManager : MonoBehaviour
 
     void Start()
     {
-        // Завантаження налаштувань або встановлення значень за замовчуванням
+        // Р—Р°РІР°РЅС‚Р°Р¶РµРЅРЅСЏ РЅР°Р»Р°С€С‚СѓРІР°РЅСЊ Р°Р±Рѕ РІСЃС‚Р°РЅРѕРІР»РµРЅРЅСЏ Р·РЅР°С‡РµРЅСЊ Р·Р° Р·Р°РјРѕРІС‡СѓРІР°РЅРЅСЏРј
         volumeSlider.value = PlayerPrefs.GetFloat("musicVolume", 1f);
         muted = PlayerPrefs.GetInt("muted", 0) == 1;
 
@@ -23,7 +23,7 @@ public class SoundManager : MonoBehaviour
 
     public void OnButtonPress()
     {
-        muted = !muted; // Інвертуємо mute
+        muted = !muted; // Р†РЅРІРµСЂС‚СѓС”РјРѕ mute
         ApplySettings();
         SaveSettings();
     }
@@ -47,6 +47,6 @@ public class SoundManager : MonoBehaviour
     {
         PlayerPrefs.SetFloat("musicVolume", volumeSlider.value);
         PlayerPrefs.SetInt("muted", muted ? 1 : 0);
-        PlayerPrefs.Save(); // Зберігаємо налаштування
+        PlayerPrefs.Save(); // Р—Р±РµСЂС–РіР°С”РјРѕ РЅР°Р»Р°С€С‚СѓРІР°РЅРЅСЏ
     }
 }

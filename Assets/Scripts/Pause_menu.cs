@@ -1,4 +1,4 @@
-using UnityEngine;
+п»їusing UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class Pause_menu : MonoBehaviour
@@ -63,7 +63,7 @@ public class Pause_menu : MonoBehaviour
 
     public void Go_to_Menu()
     {
-        Time.timeScale = 1f; // Відновлюємо нормальний час
+        Time.timeScale = 1f; // Р’С–РґРЅРѕРІР»СЋС”РјРѕ РЅРѕСЂРјР°Р»СЊРЅРёР№ С‡Р°СЃ
         SceneManager.LoadScene("_Menu");
     }
 }

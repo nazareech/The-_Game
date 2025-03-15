@@ -1,18 +1,18 @@
-using UnityEngine;
+п»їusing UnityEngine;
 using TMPro;
 
 public class Translatable_text : MonoBehaviour
 {
 
     public int textID;
-    [HideInInspector] public TextMeshProUGUI UIText; // TMPro для UI
-    //[HideInInspector] public Text UIText; // звичаний текст
+    [HideInInspector] public TextMeshProUGUI UIText; // TMPro РґР»СЏ UI
+    //[HideInInspector] public Text UIText; // Р·РІРёС‡Р°РЅРёР№ С‚РµРєСЃС‚
 
 
     private void Awake()
     {
         UIText = GetComponent<TextMeshProUGUI>();
-        //UIText = GetComponent<Text>(); // звичаний текст
+        //UIText = GetComponent<Text>(); // Р·РІРёС‡Р°РЅРёР№ С‚РµРєСЃС‚
 
         Translator.Add(this);
     }
