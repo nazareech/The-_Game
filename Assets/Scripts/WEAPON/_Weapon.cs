@@ -1,28 +1,26 @@
 ﻿using UnityEngine;
 
-public class Sniper : MonoBehaviour
+public class _Weapon : MonoBehaviour
 {
-    [SerializeField] float rotationSpeed = 5f; // Швидкість повороту
-    [SerializeField] GameObject bullet;        // Префаб кулі
-    [SerializeField] Transform shootPosition;  // Позиція виліту куль
+    [Header("Common Weapon Settings")]
+    [SerializeField] protected float rotationSpeed = 5f; // Швидкість повороту
+    [SerializeField] protected GameObject bullet;        // Префаб кулі
+    [SerializeField] protected Transform shootPosition;  // Позиція виліту куль
+    [SerializeField] protected GameObject Fire;          // Об'єкт для анімації вогню
+    [SerializeField] protected float fireRate = 0.2f;    // Затримка між пострілами
 
-    [SerializeField] float angeleSleeveRunout = 5f;    // Кут розбігу гільз у градусах
-    [SerializeField] GameObject sleeve;        // Префаб гільзи
-    [SerializeField] Transform sleevePosition;  // Позиція виліту гільз
+    [SerializeField] float angeleSleeveRunout = 5f;     // Кут розбігу гільз у градусах
+    [SerializeField] GameObject sleeve;                 // Префаб гільзи
+    [SerializeField] Transform sleevePosition;          // Позиція виліту гільз
 
+    protected Animator fireAnim;
+    protected Animator gunAnim;         // Animator для зброї (тепер private)
 
+    protected SpriteRenderer gunRender; // Для перевертання спрайту
 
+    protected float nextFireTime = 0f;  // Час наступного пострілу
 
-    [SerializeField] GameObject Fire;          // Об'єкт для анімації вогню
-    private Animator fireAnim;
-    private Animator gunAnim;                 // Animator для зброї (тепер private)
-
-    public float fireRate = 0.2f;              // Затримка між пострілами
-    private float nextFireTime = 0f;
-
-    private SpriteRenderer gunRender;          // Для перевертання спрайту
-
-    void Start()
+    protected virtual void Start()
     {
         // Отримуємо компонент Animator з поточного об'єкта
         gunAnim = GetComponent<Animator>();
@@ -47,7 +45,7 @@ public class Sniper : MonoBehaviour
         }
     }
 
-    void Update()
+    protected virtual void Update()
     {
         GunRotation();
 
@@ -58,14 +56,12 @@ public class Sniper : MonoBehaviour
             gunAnim.SetTrigger("Shoot");    // Запускаємо анімацію стрільби
             fireAnim.SetTrigger("Shoot");   // Запускаємо анімацію вогню
         }
-        
     }
 
-    void GunRotation()
+    protected virtual void GunRotation()
     {
         // Отримуємо різницю між позицією курсора та позицією зброї
         Vector2 dir = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
-        //dir.Normalize(); // Нормалізуємо вектор
 
         // Обчислюємо кут повороту
         float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
@@ -87,6 +83,26 @@ public class Sniper : MonoBehaviour
         }
     }
 
+    protected virtual void Shoot()
+    {
+        // Отримуємо поточний кут стрільби
+        float currentAngle = Mathf.Atan2(shootPosition.up.y, shootPosition.up.x) * Mathf.Rad2Deg;
+
+        // Створюємо кут стрільби
+        Quaternion shootRotation = Quaternion.Euler(0, 0, currentAngle);
+
+        // Створюємо патрон з точним кутом
+        Instantiate(bullet, shootPosition.position, shootRotation);
+        Debug.Log("'BemB! Weapon shot!'");
+
+        GetSpreadAngle();
+
+        // Додатково: можна додати ефект віддачі або звук пострілу
+        // recoilAnim.SetTrigger("Shoot"); // Анімація віддачі
+        // audioSource.PlayOneShot(shootSound); // Звук пострілу
+    }
+
+    // Виліт гільз
     void GetSpreadAngle()
     {
         // Отримуємо поточний кут виліту гільз
@@ -102,24 +118,5 @@ public class Sniper : MonoBehaviour
         // Створюємо гільзу з новим кутом
         Instantiate(sleeve, sleevePosition.position, spreadRotation);
         Debug.Log("'Press BaBah!'");
-    }
-
-    void Shoot()
-    {
-        // Отримуємо поточний кут стрільби
-        float currentAngle = Mathf.Atan2(shootPosition.up.y, shootPosition.up.x) * Mathf.Rad2Deg;
-
-        // Створюємо кут стрільби без розбігу
-        Quaternion shootRotation = Quaternion.Euler(0, 0, currentAngle);
-
-        // Створюємо патрон з точним кутом
-        Instantiate(bullet, shootPosition.position, shootRotation);
-        Debug.Log("'BemB! Sniper shot!'");
-
-        GetSpreadAngle();
-
-        // Додатково: можна додати ефект віддачі або звук пострілу
-        // recoilAnim.SetTrigger("Shoot"); // Анімація віддачі
-        // audioSource.PlayOneShot(shootSound); // Звук пострілу
     }
 }
