@@ -9,6 +9,10 @@ public class Minigun : MonoBehaviour
     [SerializeField] GameObject bullet;
     [SerializeField] Transform shootPosition;   // Позиція виліту куль
 
+    [SerializeField] float angeleSleeveRunout = 5f;    // Кут розбігу гільз у градусах
+    [SerializeField] GameObject sleeve;        // Префаб гільзи
+    [SerializeField] Transform sleevePosition;  // Позиція виліту гільз
+
     [SerializeField] GameObject Fire;           // Об'єкт для анімації вогню
     private Animator fireAnim;
     private Animator gunAnim;                   // Animator для мінігана
@@ -32,6 +36,10 @@ public class Minigun : MonoBehaviour
     private float overheatTimer = 0f;       // Timer for colding
 
     [SerializeField] Slider heatSlider;     // Слайдер для відображення темпеератури
+
+    [SerializeField] private Image heatSliderFill; // Компонент Image для заповнення слайдера
+    [SerializeField] private Color normalColor = Color.red; // Звичайний колір слайдера
+    [SerializeField] private Color coolingColor = Color.blue; // Колір слайдера під час охолодження
 
     //------------------------------------------------------------------------
 
@@ -65,17 +73,36 @@ public class Minigun : MonoBehaviour
     {
         if (heatSlider != null)
         {
-            heatSlider.value = currentHeat;// maxHeat; //+= currentHeat;
+            heatSlider.value = currentHeat / maxHeat; // Оновлюємо значення слайдера
         }
 
         if (isOverheated)
         {
             // Якщо мініган перегрітий, очікуємо, поки він охолоне
             overheatTimer -= Time.deltaTime;
-            if (overheatTimer < 0f)
+
+            // Змінюємо колір слайдера на синій
+            if (heatSliderFill != null)
+            {
+                heatSliderFill.color = coolingColor;
+            }
+
+            // Поступове зменшення слайдера
+            if (heatSlider != null)
+            {
+                heatSlider.value = overheatTimer / overheatCooldown;
+            }
+
+            if (overheatTimer <= 0f)
             {
                 isOverheated = false;
-                currentHeat = 0f;   // Reset temperature after colding
+                currentHeat = 0f; // Скидаємо температуру після охолодження
+
+                // Повертаємо звичайний колір слайдера
+                if (heatSliderFill != null)
+                {
+                    heatSliderFill.color = normalColor;
+                }
             }
         }
         else
@@ -96,7 +123,7 @@ public class Minigun : MonoBehaviour
                     {
                         Overheat();
                     }
-                }                
+                }
             }
 
             // Охолодження, якщо не стріляємо
@@ -105,7 +132,14 @@ public class Minigun : MonoBehaviour
                 currentHeat -= coolingRate * Time.deltaTime;
                 currentHeat = Mathf.Max(currentHeat, 0f); // Не даємо температурі опуститися нижче 0
             }
+
+            // Повертаємо звичайний колір слайдера, якщо не перегріто
+            if (heatSliderFill != null)
+            {
+                heatSliderFill.color = normalColor;
+            }
         }
+
         GunRotation();
     }
 
@@ -114,6 +148,12 @@ public class Minigun : MonoBehaviour
         isOverheated = true;
         overheatTimer = overheatCooldown;
         Debug.Log("Minigun overheated! Cooling down...");
+
+        // Змінюємо колір слайдера на синій
+        if (heatSliderFill != null)
+        {
+            heatSliderFill.color = coolingColor;
+        }
     }
 
     void GunRotation()
@@ -143,6 +183,23 @@ public class Minigun : MonoBehaviour
         }
     }
 
+    void GetSpreadAngle()
+    {
+        // Отримуємо поточний кут виліту гільз
+        float currentAngle = Mathf.Atan2(shootPosition.up.y, shootPosition.up.x) * Mathf.Rad2Deg;
+
+        // Додаємо випадкове відхилення в межах розбігу
+        float randomSpread = Random.Range(-angeleSleeveRunout, angeleSleeveRunout);
+        float newAngle = currentAngle + randomSpread;
+
+        // Створюємо новий кут виліту гільз
+        Quaternion spreadRotation = Quaternion.Euler(0, 0, newAngle);
+
+        // Створюємо гільзу з новим кутом
+        Instantiate(sleeve, sleevePosition.position, spreadRotation);
+        Debug.Log("'Press BaBah!'");
+    }
+
     void Shoot()
     {
         // Отримуємо поточний кут стрільби
@@ -158,5 +215,7 @@ public class Minigun : MonoBehaviour
         // Створюємо патрон з новим кутом
         Instantiate(bullet, shootPosition.position, spreadRotation);
         Debug.Log("'Press BaBah!'");
+
+        GetSpreadAngle();
     }
 }

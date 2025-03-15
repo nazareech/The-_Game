@@ -9,6 +9,9 @@ public class WeaponSwitch : MonoBehaviour
 
     [SerializeField] Slider heatSlider; // Слайдер перегріву мінігану
 
+    [SerializeField] float switchCooldown = 1f; // Час затримки для перемикання зброї
+    private float lastSwitchTime = 0f; // Час останнього перемикання
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -20,38 +23,53 @@ public class WeaponSwitch : MonoBehaviour
     {
         int currentWeapon = weaponSwitch;
 
-        if(Input.GetAxis("Mouse ScrollWheel") > 0f)
+        // Перевіряємо, чи минув час затримки
+        if (Time.time >= lastSwitchTime + switchCooldown)
         {
-            if (weaponSwitch >= transform.childCount - 1)
+            if (Input.GetAxis("Mouse ScrollWheel") > 0f)
+            {
+                if (weaponSwitch >= transform.childCount - 1)
+                {
+                    weaponSwitch = 0;
+                }
+                else
+                {
+                    weaponSwitch++;
+                }
+
+                lastSwitchTime = Time.time; // Оновлюємо час останнього перемикання
+            }
+
+            if (Input.GetAxis("Mouse ScrollWheel") < 0f)
+            {
+                if (weaponSwitch <= 0)
+                {
+                    weaponSwitch = transform.childCount - 1;
+                }
+                else
+                {
+                    weaponSwitch--;
+                }
+
+                lastSwitchTime = Time.time; // Оновлюємо час останнього перемикання
+            }
+
+            if (Input.GetKeyDown(KeyCode.Alpha1))
             {
                 weaponSwitch = 0;
+                lastSwitchTime = Time.time; // Оновлюємо час останнього перемикання
             }
-            else { weaponSwitch++; }
-        }
-        
-        if (Input.GetAxis("Mouse ScrollWheel") < 0f)
-        {
-            if (weaponSwitch <= 0)
+            if (Input.GetKeyDown(KeyCode.Alpha2) && transform.childCount >= 2)
             {
-                weaponSwitch = transform.childCount - 1;
+                weaponSwitch = 1;
+                lastSwitchTime = Time.time; // Оновлюємо час останнього перемикання
             }
-            else { weaponSwitch--; 
+            if (Input.GetKeyDown(KeyCode.Alpha3) && transform.childCount >= 3)
+            {
+                weaponSwitch = 2;
+                lastSwitchTime = Time.time; // Оновлюємо час останнього перемикання
             }
         }
-
-        if(Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            weaponSwitch = 0;
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha2) && transform.childCount >= 2)
-        {
-            weaponSwitch = 1;
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha3) && transform.childCount >= 3)
-        {
-            weaponSwitch = 2;
-        }
-
 
         if (currentWeapon != weaponSwitch)
         {

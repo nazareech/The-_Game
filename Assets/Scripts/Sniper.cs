@@ -6,6 +6,13 @@ public class Sniper : MonoBehaviour
     [SerializeField] GameObject bullet;        // Префаб кулі
     [SerializeField] Transform shootPosition;  // Позиція виліту куль
 
+    [SerializeField] float angeleSleeveRunout = 5f;    // Кут розбігу гільз у градусах
+    [SerializeField] GameObject sleeve;        // Префаб гільзи
+    [SerializeField] Transform sleevePosition;  // Позиція виліту гільз
+
+
+
+
     [SerializeField] GameObject Fire;          // Об'єкт для анімації вогню
     private Animator fireAnim;
     private Animator gunAnim;                 // Animator для зброї (тепер private)
@@ -80,6 +87,23 @@ public class Sniper : MonoBehaviour
         }
     }
 
+    void GetSpreadAngle()
+    {
+        // Отримуємо поточний кут виліту гільз
+        float currentAngle = Mathf.Atan2(shootPosition.up.y, shootPosition.up.x) * Mathf.Rad2Deg;
+
+        // Додаємо випадкове відхилення в межах розбігу
+        float randomSpread = Random.Range(-angeleSleeveRunout, angeleSleeveRunout);
+        float newAngle = currentAngle + randomSpread;
+
+        // Створюємо новий кут виліту гільз
+        Quaternion spreadRotation = Quaternion.Euler(0, 0, newAngle);
+
+        // Створюємо гільзу з новим кутом
+        Instantiate(sleeve, sleevePosition.position, spreadRotation);
+        Debug.Log("'Press BaBah!'");
+    }
+
     void Shoot()
     {
         // Отримуємо поточний кут стрільби
@@ -91,6 +115,8 @@ public class Sniper : MonoBehaviour
         // Створюємо патрон з точним кутом
         Instantiate(bullet, shootPosition.position, shootRotation);
         Debug.Log("'BemB! Sniper shot!'");
+
+        GetSpreadAngle();
 
         // Додатково: можна додати ефект віддачі або звук пострілу
         // recoilAnim.SetTrigger("Shoot"); // Анімація віддачі
