@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Unity.VisualScripting;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class Minigun : _Weapon
@@ -15,6 +16,11 @@ public class Minigun : _Weapon
     [SerializeField] private Color normalColor = Color.red;   // Звичайний колір слайдера
     [SerializeField] private Color coolingColor = Color.blue; // Колір слайдера під час охолодження
 
+    [SerializeField] GameObject temperatureSensor;
+    [SerializeField] GameObject arrowSensor;
+    [SerializeField] GameObject warningSensor;
+
+
     private new Animator gunAnim;
 
     private float currentHeat = 0f;         // Поточна температура
@@ -28,9 +34,11 @@ public class Minigun : _Weapon
     }
     protected override void Update()
     {
-        gunAnim.SetBool("Overheat", isOverheated);    // Запускаємо анімацію перегріву
-
         base.Update(); // Викликаємо базовий метод Update
+
+        Sensors();  // Датчики температурии на шкалі перегріву
+
+        gunAnim.SetBool("Overheat", isOverheated);    // Запускаємо анімацію перегріву
 
         if (heatSlider != null)
         {
@@ -126,7 +134,36 @@ public class Minigun : _Weapon
         if (heatSliderFill != null)
         {
             heatSliderFill.color = coolingColor;
+            
         }
+
+       
+    }
+
+    // ДАтчики на шкалі перегріву
+    private void Sensors()
+    {
+        if (currentHeat < 80f && !isOverheated) 
+        {
+            temperatureSensor.SetActive(true);
+            arrowSensor.SetActive(false);
+            warningSensor.SetActive(false);
+        }
+        else if(currentHeat >= 80f && !isOverheated)
+        {
+            temperatureSensor.SetActive(false);
+            arrowSensor.SetActive(false);
+            warningSensor.SetActive(true);
+
+        }
+        else if (currentHeat >= maxHeat)
+        {
+            temperatureSensor.SetActive(false);
+            arrowSensor.SetActive(true);
+            warningSensor.SetActive(false);
+        }
+
+
     }
 }
 

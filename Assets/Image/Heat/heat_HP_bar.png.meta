@@ -46,7 +46,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -125,12 +125,12 @@ TextureImporter:
       name: heat_HP_bar_0
       rect:
         serializedVersion: 2
-        x: 7
-        y: 32
-        width: 73
-        height: 15
+        x: 8
+        y: 33
+        width: 70
+        height: 13
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -147,12 +147,12 @@ TextureImporter:
       name: heat_HP_bar_1
       rect:
         serializedVersion: 2
-        x: 0
-        y: 21
-        width: 7
-        height: 10
+        x: 1
+        y: 22
+        width: 5
+        height: 8
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -169,12 +169,12 @@ TextureImporter:
       name: heat_HP_bar_2
       rect:
         serializedVersion: 2
-        x: 12
-        y: 22
-        width: 71
-        height: 9
+        x: 22
+        y: 25
+        width: 60
+        height: 3
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -191,12 +191,12 @@ TextureImporter:
       name: heat_HP_bar_3
       rect:
         serializedVersion: 2
-        x: 14
-        y: 0
-        width: 74
-        height: 21
+        x: 17
+        y: 1
+        width: 70
+        height: 13
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -209,11 +209,77 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: heat_HP_bar_5
+      rect:
+        serializedVersion: 2
+        x: 29
+        y: 14
+        width: 57
+        height: 3
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ccaeca87d896d434fb1f156f972e864d
+      internalID: 857260867
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: heat_HP_bar_7
+      rect:
+        serializedVersion: 2
+        x: 12
+        y: 23
+        width: 6
+        height: 7
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a63799b0d0dd245449c6abdfae0c993a
+      internalID: 625301793
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: heat_HP_bar_8
+      rect:
+        serializedVersion: 2
+        x: 14
+        y: 13
+        width: 3
+        height: 7
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9aa92aa349d3eeb4ca4cb78219a57400
+      internalID: -188704708
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 1f05a4a5a4fbb6f43a29f8ac2a5957c5
     internalID: 0
     vertices: []
     indices: 
@@ -222,7 +288,16 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      heat_HP_bar_0: 7003209117508651262
+      heat_HP_bar_1: -8204833318940530036
+      heat_HP_bar_2: 7258271519347740725
+      heat_HP_bar_3: -3085337762364754280
+      heat_HP_bar_4: -959156572
+      heat_HP_bar_5: 857260867
+      heat_HP_bar_6: 1287546279
+      heat_HP_bar_7: 625301793
+      heat_HP_bar_8: -188704708
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
