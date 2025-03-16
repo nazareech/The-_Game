@@ -53,8 +53,6 @@ public class _Weapon : MonoBehaviour
         {
             nextFireTime = Time.time + fireRate; // Оновлюємо час наступного пострілу
             Shoot();
-            gunAnim.SetTrigger("Shoot");    // Запускаємо анімацію стрільби
-            fireAnim.SetTrigger("Shoot");   // Запускаємо анімацію вогню
         }
     }
 
@@ -85,6 +83,7 @@ public class _Weapon : MonoBehaviour
 
     protected virtual void Shoot()
     {
+        ShootAnim();
         // Отримуємо поточний кут стрільби
         float currentAngle = Mathf.Atan2(shootPosition.up.y, shootPosition.up.x) * Mathf.Rad2Deg;
 
@@ -93,7 +92,7 @@ public class _Weapon : MonoBehaviour
 
         // Створюємо патрон з точним кутом
         Instantiate(bullet, shootPosition.position, shootRotation);
-        Debug.Log("'BemB! Weapon shot!'");
+        Debug.Log("BemB! Weapon shot!");
 
         GetSpreadAngle();
 
@@ -101,6 +100,13 @@ public class _Weapon : MonoBehaviour
         // recoilAnim.SetTrigger("Shoot"); // Анімація віддачі
         // audioSource.PlayOneShot(shootSound); // Звук пострілу
     }
+
+    protected virtual void ShootAnim()
+    {
+        gunAnim.SetTrigger("Shoot");    // Запускаємо анімацію стрільби
+        fireAnim.SetTrigger("Shoot");   // Запускаємо анімацію вогню
+    }
+
 
     // Виліт гільз
     void GetSpreadAngle()

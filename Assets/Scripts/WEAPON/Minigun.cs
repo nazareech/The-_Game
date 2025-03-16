@@ -15,12 +15,21 @@ public class Minigun : _Weapon
     [SerializeField] private Color normalColor = Color.red;   // Звичайний колір слайдера
     [SerializeField] private Color coolingColor = Color.blue; // Колір слайдера під час охолодження
 
+    private new Animator gunAnim;
+
     private float currentHeat = 0f;         // Поточна температура
     private bool isOverheated = false;      // Чи перегрітий мініган
     private float overheatTimer = 0f;       // Таймер для охолодження
 
+    protected override void Start()
+    {
+        base.Start();   
+        gunAnim = GetComponent<Animator>();    
+    }
     protected override void Update()
     {
+        gunAnim.SetBool("Overheat", isOverheated);    // Запускаємо анімацію перегріву
+
         base.Update(); // Викликаємо базовий метод Update
 
         if (heatSlider != null)
@@ -74,11 +83,29 @@ public class Minigun : _Weapon
         }
     }
 
+
     protected override void Shoot()
     {
+        if (currentHeat != maxHeat) 
+        {
+            base.ShootAnim();
+        }
+
         if (isOverheated) return; // Якщо перегріто, не стріляємо
 
-        base.Shoot(); // Викликаємо базовий метод Shoot
+        // Отримуємо поточний кут стрільби
+        float currentAngle = Mathf.Atan2(shootPosition.up.y, shootPosition.up.x) * Mathf.Rad2Deg;
+
+        // Додаємо випадкове відхилення в межах розбігу
+        float randomSpread = Random.Range(-spreadAngle, spreadAngle);
+        float newAngle = currentAngle + randomSpread;
+
+        // Створюємо новий кут стрільби
+        Quaternion spreadRotation = Quaternion.Euler(0, 0, newAngle);
+
+        // Створюємо патрон з новим кутом
+        Instantiate(bullet, shootPosition.position, spreadRotation);
+        Debug.Log("'Press BaBah! Minigun shot with spread!'");
 
         // Збільшуємо температуру
         currentHeat += heatPerShoot;
@@ -86,6 +113,7 @@ public class Minigun : _Weapon
         {
             Overheat();
         }
+        
     }
 
     private void Overheat()
