@@ -21,22 +21,16 @@ public class Minigun : _Weapon
     [SerializeField] GameObject warningSensor;
 
 
-    private new Animator gunAnim;
+    //private new Animator gunAnim;
 
     private float currentHeat = 0f;         // Поточна температура
     private bool isOverheated = false;      // Чи перегрітий мініган
     private float overheatTimer = 0f;       // Таймер для охолодження
 
-    protected override void Start()
-    {
-        base.Start();   
-        gunAnim = GetComponent<Animator>();    
-    }
+   
     protected override void Update()
     {
         base.Update(); // Викликаємо базовий метод Update
-
-        Sensors();  // Датчики температурии на шкалі перегріву
 
         gunAnim.SetBool("Overheat", isOverheated);    // Запускаємо анімацію перегріву
 
@@ -89,6 +83,8 @@ public class Minigun : _Weapon
                 heatSliderFill.color = normalColor;
             }
         }
+
+        Sensors();  // Датчики температурии на шкалі перегріву
     }
 
 
