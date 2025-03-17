@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Minigun_TakeOutAnimation_0: 2929939363551532426
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
