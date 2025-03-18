@@ -22,17 +22,18 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update() 
     {
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            // Викликаємо тряску камери
-            CameraController.cameraShake?.Invoke(10f, 15f, 5f);
-        }
+        //if (Input.GetKeyDown(KeyCode.E))
+        //{
+        //    CameraController.cameraShake?.Invoke(3f, 10f, 1f);
+        //    // Викликаємо тряску камери
+        //    //CameraController.cameraShake?.Invoke(10f, 15f, 5f);
+        //}
 
-        if (Input.GetKeyDown(KeyCode.Z))
-        {
-            // Змінюємо розмір камери
-            CameraController.changeCameraSizeEvent?.Invoke(7.5f);
-        }
+        //if (Input.GetKeyDown(KeyCode.Z))
+        //{
+        //    // Змінюємо розмір камери
+        //    CameraController.changeCameraSizeEvent?.Invoke(7.5f);
+        //}
     }
 
     private void FixedUpdate() { Move(); }

@@ -9,9 +9,15 @@ public class _Weapon : MonoBehaviour
     [SerializeField] protected GameObject Fire;          // Об'єкт для анімації вогню
     [SerializeField] protected float fireRate = 0.2f;    // Затримка між пострілами
 
+    [Header("Sleeve Settings")]
     [SerializeField] float angeleSleeveRunout = 5f;     // Кут розбігу гільз у градусах
     [SerializeField] GameObject sleeve;                 // Префаб гільзи
     [SerializeField] Transform sleevePosition;          // Позиція виліту гільз
+
+    [Header("Shake-shoot Settings")]
+    public float amplitude = 1f;
+    public float frequency = 1f;
+    public float duration = 0.2f;
 
     protected Animator fireAnim;
     protected Animator gunAnim;         // Animator для зброї (тепер private)
@@ -83,6 +89,9 @@ public class _Weapon : MonoBehaviour
 
     protected virtual void Shoot()
     {
+        // Вмикаємо тряску
+        CameraController.cameraShake?.Invoke(amplitude, frequency, duration);
+
         ShootAnim();
         // Отримуємо поточний кут стрільби
         float currentAngle = Mathf.Atan2(shootPosition.up.y, shootPosition.up.x) * Mathf.Rad2Deg;
