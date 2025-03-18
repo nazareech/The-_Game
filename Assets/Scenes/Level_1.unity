@@ -2682,6 +2682,9 @@ MonoBehaviour:
   angeleSleeveRunout: 5
   sleeve: {fileID: 0}
   sleevePosition: {fileID: 0}
+  amplitude: 1
+  frequency: 1
+  duration: 0.2
 --- !u!1 &1020339922
 GameObject:
   m_ObjectHideFlags: 0
@@ -4907,11 +4910,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2495702035400647768, guid: fbc12f8fe01da804597c97f29f0d4da3, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 5.77
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 2495702035400647768, guid: fbc12f8fe01da804597c97f29f0d4da3, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.19
+      value: 2.5
       objectReference: {fileID: 0}
     - target: {fileID: 2495702035400647768, guid: fbc12f8fe01da804597c97f29f0d4da3, type: 3}
       propertyPath: m_LocalPosition.z

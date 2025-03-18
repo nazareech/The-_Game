@@ -16,6 +16,7 @@ public class WeaponSwitch : MonoBehaviour
     [SerializeField] Slider heatSlider; // Слайдер перегріву мінігану
 
     private Animator anim;          // Animator для активної зброї
+    private GameObject weaponToPickup; // Зберігаємо об'єкт, який можна підібрати
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -83,6 +84,12 @@ public class WeaponSwitch : MonoBehaviour
             SelectWeapon();
         }
 
+        // Перевіряємо, чи гравець натиснув клавішу F і чи є зброя для підбору
+        if (Input.GetKeyDown(KeyCode.F) && weaponToPickup != null)
+        {
+            PickupWeapon(weaponToPickup);
+        }
+
     }
 
     void SelectWeapon()
@@ -123,17 +130,51 @@ public class WeaponSwitch : MonoBehaviour
         }
 
     }
-
-    public void OnTriggerEnter2D(Collider2D collision)
+//--------------------------------------------------------------------------
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "MinigunPickedUp")
+        // Перевіряємо, чи об'єкт має тег "MinigunPickedUp"
+        if (collision.gameObject.CompareTag("MinigunPickedUp"))
         {
-            weaponOpen -= 1;
-            minigunPickedUp = true;
-
-            Destroy(collision.gameObject);
-            weaponSwitch = 2;
-            SelectWeapon();
+            // Зберігаємо об'єкт для підбору
+            weaponToPickup = collision.gameObject;
         }
     }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        // Якщо гравець вийшов із зони тригера, очищаємо посилання на об'єкт
+        if (collision.gameObject == weaponToPickup)
+        {
+            weaponToPickup = null;
+        }
+    }
+
+    private void PickupWeapon(GameObject weapon)
+    {
+        // Логіка підбору зброї
+        weaponOpen -= 1;
+        minigunPickedUp = true;
+
+        Destroy(weapon); // Знищуємо об'єкт зброї
+        weaponSwitch = 2;
+        SelectWeapon();
+
+        weaponToPickup = null; // Очищаємо посилання на об'єкт після підбору
+    }
+//--------------------------------------------------------------------------------
+
+    //private void OnTriggerEnter2D(Collider2D collision)
+    //{
+    //    if (collision.gameObject.tag == "MinigunPickedUp")
+    //    {
+    //        weaponOpen -= 1;
+    //        minigunPickedUp = true;
+
+    //        Destroy(collision.gameObject);
+    //        weaponSwitch = 2;
+    //        SelectWeapon();
+
+    //    }
+    //}
 }
