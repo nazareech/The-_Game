@@ -2585,6 +2585,7 @@ GameObject:
   - component: {fileID: 952341246}
   - component: {fileID: 952341247}
   - component: {fileID: 952341248}
+  - component: {fileID: 952341249}
   m_Layer: 0
   m_Name: Fists
   m_TagString: Untagged
@@ -2685,6 +2686,28 @@ MonoBehaviour:
   amplitude: 1
   frequency: 1
   duration: 0.2
+--- !u!95 &952341249
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 952341245}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 20c8ee8c506b55346b43974664493dee, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1020339922
 GameObject:
   m_ObjectHideFlags: 0
@@ -3402,7 +3425,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1351825392
 Transform:
   m_ObjectHideFlags: 0
