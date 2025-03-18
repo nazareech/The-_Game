@@ -10,18 +10,22 @@ public class CameraController : MonoBehaviour
     public static Action<Transform> changeFollowTargetEvent;
 
     private CinemachineCamera cam;
-    private CinemachineImpulseSource impulseSource;
+    //private CinemachineImpulseSource impulseSource;
+    private CinemachineBasicMultiChannelPerlin noise;
     private float camSize;
 
     void Start()
     {
         cam = GetComponent<CinemachineCamera>();
-        impulseSource = GetComponent<CinemachineImpulseSource>();
+        //impulseSource = GetComponent<CinemachineImpulseSource>();
+
+        noise = cam.GetComponent<CinemachineBasicMultiChannelPerlin>();
 
         // Підписка на події
         cameraShake += Shake;
         changeCameraSizeEvent += ChangeCameraSize;
         changeFollowTargetEvent += ChangeFollowTarget;
+
     }
 
     void OnDestroy()
@@ -30,15 +34,37 @@ public class CameraController : MonoBehaviour
         cameraShake -= Shake;
         changeCameraSizeEvent -= ChangeCameraSize;
         changeFollowTargetEvent -= ChangeFollowTarget;
+
     }
 
-    // 🔹 Функція для тряски камери через ImpulseSource
-    void Shake(float strength, float time, float fadeTime)
+    // Функція для тряски камери
+    public void Shake(float amplitude, float frequency, float duration)
     {
-        if (impulseSource != null)
-        {
-            impulseSource.GenerateImpulseWithForce(strength);
-        }
+        if (noise == null) return;
+
+        StopAllCoroutines();
+        StartCoroutine(ShakeCoroutine(amplitude, frequency, duration));
+        StartCoroutine(StopShake(duration));
+    }
+
+    private IEnumerator ShakeCoroutine(float amplitude, float frequency, float duration)
+    {
+        noise.AmplitudeGain = amplitude;
+        noise.FrequencyGain = frequency;
+
+        yield return new WaitForSeconds(duration);
+
+        noise.AmplitudeGain = 0f;
+        noise.FrequencyGain = 0f;
+    }
+
+    
+    // 🔹 Корутин для зупинки тряски камери через певний час
+    private IEnumerator StopShake(float duration)
+    {
+        yield return new WaitForSeconds(duration);
+        noise.AmplitudeGain = 0f;
+        noise.FrequencyGain = 0f;
     }
 
     // 🔹 Зміна розміру огляду камери

@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Wall
   - Minigun
+  - MinigunPickedUp
   layers:
   - Default
   - TransparentFX

@@ -3,14 +3,19 @@ using UnityEngine.UI;
 
 public class WeaponSwitch : MonoBehaviour
 {
-
-    private Animator anim;          // Animator для активної зброї
+    [Header("Weapon Switch Settings")]
     public int weaponSwitch = 0;
+    public int weaponOpen = 2;
+    public bool minigunPickedUp = false;
 
-    [SerializeField] Slider heatSlider; // Слайдер перегріву мінігану
-
+    [Header("Time to Switch")]
     [SerializeField] float switchCooldown = 1f; // Час затримки для перемикання зброї
     private float lastSwitchTime = 0f; // Час останнього перемикання
+
+    [Header("Overheat Slider")]
+    [SerializeField] Slider heatSlider; // Слайдер перегріву мінігану
+
+    private Animator anim;          // Animator для активної зброї
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -26,9 +31,10 @@ public class WeaponSwitch : MonoBehaviour
         // Перевіряємо, чи минув час затримки
         if (Time.time >= lastSwitchTime + switchCooldown)
         {
+            // Колесо мишки
             if (Input.GetAxis("Mouse ScrollWheel") > 0f)
             {
-                if (weaponSwitch >= transform.childCount - 1)
+                if (weaponSwitch >= transform.childCount - weaponOpen)
                 {
                     weaponSwitch = 0;
                 }
@@ -44,7 +50,7 @@ public class WeaponSwitch : MonoBehaviour
             {
                 if (weaponSwitch <= 0)
                 {
-                    weaponSwitch = transform.childCount - 1;
+                    weaponSwitch = transform.childCount - weaponOpen;
                 }
                 else
                 {
@@ -54,6 +60,7 @@ public class WeaponSwitch : MonoBehaviour
                 lastSwitchTime = Time.time; // Оновлюємо час останнього перемикання
             }
 
+            // Клавіатура
             if (Input.GetKeyDown(KeyCode.Alpha1))
             {
                 weaponSwitch = 0;
@@ -64,7 +71,7 @@ public class WeaponSwitch : MonoBehaviour
                 weaponSwitch = 1;
                 lastSwitchTime = Time.time; // Оновлюємо час останнього перемикання
             }
-            if (Input.GetKeyDown(KeyCode.Alpha3) && transform.childCount >= 3)
+            if (Input.GetKeyDown(KeyCode.Alpha3) && minigunPickedUp == true)
             {
                 weaponSwitch = 2;
                 lastSwitchTime = Time.time; // Оновлюємо час останнього перемикання
@@ -115,5 +122,18 @@ public class WeaponSwitch : MonoBehaviour
             i++;
         }
 
+    }
+
+    public void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "MinigunPickedUp")
+        {
+            weaponOpen -= 1;
+            minigunPickedUp = true;
+
+            Destroy(collision.gameObject);
+            weaponSwitch = 2;
+            SelectWeapon();
+        }
     }
 }

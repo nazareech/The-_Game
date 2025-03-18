@@ -90,7 +90,7 @@ public class Minigun : _Weapon
 
     protected override void Shoot()
     {
-        if (currentHeat != maxHeat) 
+        if (!isOverheated) 
         {
             base.ShootAnim();
         }
@@ -110,6 +110,9 @@ public class Minigun : _Weapon
         // Створюємо патрон з новим кутом
         Instantiate(bullet, shootPosition.position, spreadRotation);
         Debug.Log("'Press BaBah! Minigun shot with spread!'");
+
+        // Вмикаємо тряску
+        CameraController.cameraShake?.Invoke(amplitude, frequency, duration);
 
         // Збільшуємо температуру
         currentHeat += heatPerShoot;
