@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Wall
   - Minigun
+  - Enemy
   layers:
   - Default
   - TransparentFX
