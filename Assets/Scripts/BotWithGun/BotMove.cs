@@ -128,18 +128,6 @@ public class SideViewUnitWithAwareness : MonoBehaviour
         }
     }
 
-    // private void SetVelocity()
-    // {
-    //     if (_targetDirection == Vector2.zero)
-    //     {
-    //         _rigidbody.linearVelocity = Vector2.zero; // Зупинитися
-    //     }
-    //     else
-    //     {
-    //         // Рухатися в напрямку гравця (по обох осях)
-    //         _rigidbody.linearVelocity = _targetDirection * _speed;
-    //     }
-    // }
 
     private void SetVelocity()
 {
