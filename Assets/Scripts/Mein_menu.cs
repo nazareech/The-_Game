@@ -1,4 +1,4 @@
-using UnityEngine;
+п»їusing UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class Mein_menu : MonoBehaviour
@@ -20,7 +20,7 @@ public class Mein_menu : MonoBehaviour
     public void Language_change(int languageID)
     {
         PlayerPrefs.SetInt("Language", languageID);
-        PlayerPrefs.Save(); // Зберігаємо налаштування
+        PlayerPrefs.Save(); // Р—Р±РµСЂС–РіР°С”РјРѕ РЅР°Р»Р°С€С‚СѓРІР°РЅРЅСЏ
         Translator.Select_language(PlayerPrefs.GetInt("Language"));
     }
 
