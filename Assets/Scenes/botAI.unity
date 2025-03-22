@@ -2783,7 +2783,7 @@ MonoBehaviour:
   bullet: {fileID: 7125418046232547790, guid: 42f7bd52bc4249d40a0c9937b13b3039, type: 3}
   shotPoint: {fileID: 904496585}
   startTimeBtwShots: 1
-  offset: 720
+  offset: 180
   player: {fileID: 0}
 --- !u!212 &1905342000
 SpriteRenderer:
