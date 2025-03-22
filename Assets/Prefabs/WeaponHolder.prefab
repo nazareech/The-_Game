@@ -817,15 +817,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 8918456375955892572}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4a74da4bc842d244398282670123820b, type: 3}
+  m_Script: {fileID: 11500000, guid: 900744df1c6676847a8bb35e12892c9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotationSpeed: 20
+  rotationSpeed: 5
   bullet: {fileID: 8745555847833676592, guid: 2c961dddcee2b08418eb8342fbbf3762, type: 3}
   shootPosition: {fileID: 3657224013942660425}
   Fire: {fileID: 3377873034480898612}
-  fireRate: 0.6
-  angeleSleeveRunout: 60
+  fireRate: 0.2
+  angeleSleeveRunout: 5
   sleeve: {fileID: 1282232222651559726, guid: 078d4e5e6e84ca54e9f383649d54d7e7, type: 3}
   sleevePosition: {fileID: 4069465087847729276}
   amplitude: 1
