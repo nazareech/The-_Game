@@ -15,8 +15,12 @@ public class WeaponSwitch : MonoBehaviour
     [Header("Overheat Slider")]
     [SerializeField] Slider heatSlider; // Слайдер перегріву мінігану
 
+    [Header("Interaction tip")]
+    public GameObject interactionTip;
+
     private Animator anim;          // Animator для активної зброї
     private GameObject weaponToPickup; // Зберігаємо об'єкт, який можна підібрати
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -136,6 +140,7 @@ public class WeaponSwitch : MonoBehaviour
         // Перевіряємо, чи об'єкт має тег "MinigunPickedUp"
         if (collision.gameObject.CompareTag("MinigunPickedUp"))
         {
+            interactionTip.SetActive(true);
             // Зберігаємо об'єкт для підбору
             weaponToPickup = collision.gameObject;
         }
@@ -146,12 +151,14 @@ public class WeaponSwitch : MonoBehaviour
         // Якщо гравець вийшов із зони тригера, очищаємо посилання на об'єкт
         if (collision.gameObject == weaponToPickup)
         {
+            interactionTip.SetActive(false);
             weaponToPickup = null;
         }
     }
 
     private void PickupWeapon(GameObject weapon)
     {
+        interactionTip.SetActive(false);
         // Логіка підбору зброї
         weaponOpen -= 1;
         minigunPickedUp = true;
