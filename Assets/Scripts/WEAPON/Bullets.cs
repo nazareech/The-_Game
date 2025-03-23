@@ -7,6 +7,8 @@ public class Bullets : MonoBehaviour
     [SerializeField] float speed;
     [SerializeField] float deathTime;
 
+    public GameObject effect;
+
     public int damage = 5;  // Урон який наносить пуля
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -23,6 +25,7 @@ public class Bullets : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        Instantiate(effect, transform.position, Quaternion.identity);
         if (collision.gameObject.tag == "Wall")
         {
             Death();
