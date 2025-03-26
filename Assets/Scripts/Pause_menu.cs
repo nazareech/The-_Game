@@ -4,13 +4,20 @@ using UnityEngine.SceneManagement;
 public class Pause_menu : MonoBehaviour
 {
 
-    public static bool isPaused = false;
-    // public static bool Music_is_Play = true;
+    [Header("Music Settings")]
     public GameObject pauseMusic;
+    public static bool isPaused = false;
+    public static bool Music_is_Play = true;
 
-    AudioSource audioSource;
-
+    [Header("UI Settings")]
     public GameObject pauseMenuUI;
+    public GameObject sliderHP;
+    public GameObject interactionTip;
+ 
+    //public GameObject sliderOverheat;
+
+
+    private AudioSource audioSource;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -42,15 +49,22 @@ public class Pause_menu : MonoBehaviour
         Time.timeScale = 1f;
         isPaused = false;
         // Music_is_Play = false;
+
+        // Включаємо повзунок здоров'я
+        sliderHP.SetActive(true);
     }
     public void Pause()
     {
+        interactionTip.SetActive(false);
         audioSource.Pause();
         // pauseMusic.SetActive(false);
         pauseMenuUI.SetActive(true);
         Time.timeScale = 0f;
         isPaused = true;
         // Music_is_Play = true;
+
+        // Виключаємо повзунок здоров'я
+        sliderHP.SetActive(false);
     }
     public void ExitGame()
     {
@@ -63,6 +77,7 @@ public class Pause_menu : MonoBehaviour
 
     public void Go_to_Menu()
     {
+        //Resume();
         Time.timeScale = 1f; // Відновлюємо нормальний час
         SceneManager.LoadScene("_Menu");
     }
