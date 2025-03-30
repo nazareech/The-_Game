@@ -155,12 +155,12 @@ public class Translator : MonoBehaviour
             listID[i].UIText.text = LineText[LanguageID, listID[i].textID];
             
             if (PlayerPrefs.GetInt("Language") == 2)
-                listID[i].UIText.font = Resources.Load<TMP_FontAsset>("EN_FontSDF");
+                listID[i].UIText.font = Resources.Load<TMP_FontAsset>("Fonts/EN_FontSDF");
             else if (PlayerPrefs.GetInt("Language") == 0)
-                listID[i].UIText.font = Resources.Load<TMP_FontAsset>("Cyrillic_fontsSDF");
+                listID[i].UIText.font = Resources.Load<TMP_FontAsset>("Fonts/Cyrillic_fontsSDF");
             else if (PlayerPrefs.GetInt("Language") == 3)
-                listID[i].UIText.font = Resources.Load<TMP_FontAsset>("CH_FontSDF");
-            else listID[i].UIText.font = Resources.Load<TMP_FontAsset>("EN_FontSDF");
+                listID[i].UIText.font = Resources.Load<TMP_FontAsset>("Fonts/CH_FontSDF");
+            else listID[i].UIText.font = Resources.Load<TMP_FontAsset>("Fonts/EN_FontSDF");
         }
     }
 };

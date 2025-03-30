@@ -8,6 +8,9 @@ TagManager:
   - Minigun
   - MinigunPickedUp
   - Enemy
+  - InventoryManager
+  - Jewelry
+  - Braslet
   layers:
   - Default
   - TransparentFX
