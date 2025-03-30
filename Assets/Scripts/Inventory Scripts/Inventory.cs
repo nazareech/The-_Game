@@ -1,107 +1,261 @@
-using NUnit.Framework;
+Ôªøusing System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Rendering;
 using UnityEngine.UI;
-
+using UnityEngine.EventSystems;
+using TMPro;
+using JetBrains.Annotations;
+using UnityEditor.Search;
 
 public class Inventory : MonoBehaviour
 {
-    List<Item> items;
-    public GameObject cellContainer;
+    public KeyCode openInventory = KeyCode.Q;
 
-    public KeyCode showInventory = KeyCode.Q;
-    public KeyCode takeButton = KeyCode.E;
-    public float distance = 10f;
-    RaycastHit2D hit;
-    RaycastHit hitItem;
+    public int stacItems = 32;
 
+    public DataBase data;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public List<ItemInventory> items = new List<ItemInventory>();
+
+    public GameObject gameObjShow;
+
+    public GameObject inventoryMainObject;
+
+    public int maxCount;
+
+    public Camera cam;
+    public EventSystem es;
+
+    public int currentID;
+    public ItemInventory currentItem;
+
+    public RectTransform movingObject;
+    public Vector3 offset;
+
+    public GameObject backGround;
+
+    private void Start()
     {
-        // ¬ËÍÎ˛˜‡∫ÏÓ ≥Ì‚ÂÌÚ‡ ÔË Á‡ÔÛÒÍÛ „Ë
-        cellContainer.SetActive(false);
-
-        items = new List<Item>();
-        for (int i = 0; i < cellContainer.transform.childCount; i++)
+        if (items.Count == 0)
         {
-            items.Add(new Item());
+            AddGraphics();
+        }
+
+        // –ó–∞–ø–æ–≤–Ω–µ–Ω–Ω—è —ñ–Ω–≤–µ–Ω—Ç–∞—Ä—è —Ä–∞–Ω–¥–æ–º–Ω–∏–º–∏ –µ–ª–µ–º–µ–Ω—Ç–∞–º–∏
+        for(int i = 0; i < maxCount; i++)
+        {
+            AddItem(i, data.items[Random.Range(0, data.items.Count)], Random.Range(1, stacItems));
+        }
+        UpdateInventory();
+
+        // –í–∏–º–∏–∫–∞—î–º–æ —ñ–Ω–≤–µ–Ω—Ç–∞—Ä—å –ø—Ä–∏ –∑–∞–ø—É—Å–∫—É –≥—Ä–∏
+        backGround.SetActive(false);
+    }
+
+    public void Update()
+    {
+        if (currentID != -1)
+        {
+            MoveObject();
+        }
+
+        if (Input.GetKeyDown(openInventory))
+        {
+            backGround.SetActive(!backGround.activeSelf);
+            if (backGround.activeSelf)
+            {
+                UpdateInventory();
+            }
         }
     }
 
-    // Update is called once per frame
-    void Update()
+    public void SearchForSameItem(Item item, int count)
     {
-        ToggleInventory();
-
-        // œÂÂ‚≥ˇ∫ÏÓ, ˜Ë „‡‚Âˆ¸ Ì‡ÚËÒÌÛ‚ ÍÎ‡‚≥¯Û  ≥ ˜Ë ∫ ÔÂ‰ÏÂÚË ‰Îˇ Ô≥‰·ÓÛ
-        if (Input.GetKeyDown(takeButton))
+        for (int i = 0; i < maxCount; i++)
         {
-            Physics2D.queriesStartInColliders = false;
-            
-            hit = Physics2D.Raycast(transform.position, Vector2.right * transform.localScale.x, distance);
-
-            if (hit)
+            if (items[i].id == item.id)
             {
-                if (hitItem.collider.GetComponent<Item>())
+                if (items[0].count < stacItems)
                 {
-                    for (int i = 0; i < items.Count; i++)
+                    items[i].count += count;
+                    if (items[i].count > stacItems)
                     {
-                        if (items[i].id == 0)
-                        {
-                            items[i] = hitItem.collider.GetComponent<Item>();
-                            DisplayItems();
-                            Destroy(hitItem.collider.GetComponent<Item>().gameObject);
-                            break;
-                        }
+                        count = items[i].count - stacItems;
+                        items[i].count = stacItems / 2;
                     }
+                    else
+                    {
+                        count = 0;
+                        i = maxCount;
+                    }
+                }
+            }
+        }
+
+        if (count > 0)
+        {
+            for (int i = 0; i < maxCount; i++)
+            {
+                if (items[i].id == 0)
+                {
+                    AddItem(i, item, count);
+                    i = maxCount;
                 }
             }
         }
     }
 
-    void ToggleInventory()
+    public void AddItem(int id, Item item, int count)
     {
-        if (Input.GetKeyDown(showInventory))
+        items[id].id = item.id;
+        items[id].count = count;
+        items[id].itemGameObject.GetComponent<Image>().sprite = data.items[item.id].img;
+
+        if(count > 1 && item.id != 0)
         {
-            if (cellContainer.activeSelf)
-            {
-                cellContainer.SetActive(false);
-            }
-            else
-            {
-                cellContainer.SetActive(true);
-            }
+            items[id].itemGameObject.GetComponentInChildren<TextMeshProUGUI>().text = items[id].count.ToString();
+        }
+        else
+        {
+            items[id].itemGameObject.GetComponentInChildren<TextMeshProUGUI>().text = "";
         }
     }
 
-    void DisplayItems()
+    public void AddInventoryItem(int id, ItemInventory invItem)
     {
+        items[id].id = invItem.id;
+        items[id].count = invItem.count;
+        items[id].itemGameObject.GetComponent<Image>().sprite = data.items[invItem.id].img;
 
-        for(int i = 0; i < items.Count; i++)
+        if (invItem.count > 1 && invItem.id != 0)
         {
-            Transform cell = cellContainer.transform.GetChild(i);
-            Transform icon = cell.GetChild(0);
-            Image img = icon.GetComponent<Image>();
+            items[id].itemGameObject.GetComponentInChildren<TextMeshProUGUI>().text = invItem.id.ToString();
+        }
+        else
+        {
+            items[id].itemGameObject.GetComponentInChildren<TextMeshProUGUI>().text = "";
+        }
+    }
 
-            if (items[i].id != 0)
+    public void AddGraphics()
+    {
+        for (int i = 0; i < maxCount; i++)
+        {
+            GameObject newItem = Instantiate(gameObjShow, inventoryMainObject.transform) as GameObject;
+
+            newItem.name = i.ToString();
+
+            ItemInventory ii = new ItemInventory();
+            ii.itemGameObject = newItem;
+
+            RectTransform rt = newItem.GetComponent<RectTransform>();
+            rt.localPosition = new Vector3(0,0,0);
+            rt.localScale = new Vector3(1,1,1);
+            newItem.GetComponentInChildren<RectTransform>().localScale = new Vector3(1,1,1);
+
+            Button tempButton = newItem.GetComponent<Button>();
+
+            tempButton.onClick.AddListener(delegate { SelectObject(); });
+
+            items.Add(ii);
+        }
+    }
+
+    public void UpdateInventory()
+    {
+        for (int i = 0; i < maxCount; i++)
+        {
+            if (items[i].id != 0 && items[i].count > 1)
             {
-                img.enabled = true;
-                img.sprite = Resources.Load<Sprite>(items[i].pathIcon);
+                items[i].itemGameObject.GetComponentInChildren<TextMeshProUGUI>().text = items[i].count.ToString();
             }
             else 
             {
-                img.enabled = false;
-                img.sprite = null;
+                items[i].itemGameObject.GetComponentInChildren<TextMeshProUGUI>().text = "";
+
             }
+
+            items[i].itemGameObject.GetComponentInChildren<Image>().sprite = data.items[items[i].id].img;
+
         }
     }
 
-    private void OnDrawGizmos()
+    public void SelectObject()
     {
-        Gizmos.color = Color.red;
-        Gizmos.DrawLine(transform.position, transform.position + Vector3.right * transform.localScale.x * distance);
+        if(currentID == -1)
+        {
+            currentID = int.Parse( es.currentSelectedGameObject.name);
+
+            // –ù–µ –¥–æ–∑–≤–æ–ª—è—î–º–æ –ø–µ—Ä–µ—Ç—è–≥—É–≤–∞—Ç–∏ –ø—É—Å—Ç—ñ —Å–ª–æ—Ç–∏
+            if (items[currentID].id == 0)
+            {
+                currentID = -1;
+                return;
+            }
+
+            currentItem = CopyInventoryItem(items[currentID]);
+            movingObject.gameObject.SetActive(true);
+            movingObject.GetComponent<Image>().sprite = data.items[currentItem.id].img;
+
+            AddItem(currentID, data.items[0], 0);
+        }
+        else
+        {
+            ItemInventory II = items[int.Parse(es.currentSelectedGameObject.name)];
+
+            if (currentItem.id != II.id)
+            {
+                 AddInventoryItem(currentID, II);
+
+                AddInventoryItem(int.Parse(es.currentSelectedGameObject.name), currentItem);
+            }
+            else
+            {
+                if (II.count + currentItem.count <= stacItems)
+                {
+                    II.count += currentItem.count;
+                }
+                else
+                {
+                    AddItem(currentID, data.items[II.id], II.count + currentItem.count - stacItems);
+
+                    II.count = stacItems;
+                }
+
+                II.itemGameObject.GetComponentInChildren<TextMeshProUGUI>().text = II.count.ToString();
+            }
+           
+            currentID = -1;
+
+            movingObject.gameObject.SetActive(false);
+        }
     }
+
+    public void MoveObject()
+    {
+        Vector3 pos = Input.mousePosition + offset;
+        pos.z = inventoryMainObject.GetComponent<RectTransform>().localPosition.z; 
+        movingObject.position = cam.ScreenToWorldPoint(pos);
+    }
+
+    public ItemInventory CopyInventoryItem(ItemInventory old)
+    {
+        ItemInventory New = new ItemInventory();
+
+        New.id = old.id;
+        New.itemGameObject = old.itemGameObject;
+        New.count = old.count;
+
+        return New;
+    }
+}
+
+[System.Serializable]
+
+public class ItemInventory
+{
+    public int id;
+    public GameObject itemGameObject;
+
+    public int count;
 }
