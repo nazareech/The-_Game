@@ -52,7 +52,7 @@ public class WeaponSwitch : MonoBehaviour
             if (Time.time >= lastSwitchTime + switchCooldown)
         {
             // Колесо мишки
-            if (Input.GetAxis("Mouse ScrollWheel") > 0f && !Pause_menu.IsPauseMenuOpen)
+            if (Input.GetAxis("Mouse ScrollWheel") > 0f && !Pause_menu.IsPauseMenuOpen && !Inventory.IsInventoryOpen)
             {
                 if (weaponSwitch >= transform.childCount - weaponOpen)
                 {
@@ -66,7 +66,7 @@ public class WeaponSwitch : MonoBehaviour
                 lastSwitchTime = Time.time; // Оновлюємо час останнього перемикання
             }
 
-            if (Input.GetAxis("Mouse ScrollWheel") < 0f && !Pause_menu.IsPauseMenuOpen)
+            if (Input.GetAxis("Mouse ScrollWheel") < 0f && !Pause_menu.IsPauseMenuOpen && !Inventory.IsInventoryOpen)
             {
                 if (weaponSwitch <= 0)
                 {
@@ -81,17 +81,17 @@ public class WeaponSwitch : MonoBehaviour
             }
 
             // Клавіатура
-            if (Input.GetKeyDown(KeyCode.Alpha1) && !Pause_menu.IsPauseMenuOpen)
+            if (Input.GetKeyDown(KeyCode.Alpha1) && !Pause_menu.IsPauseMenuOpen && !Inventory.IsInventoryOpen)
             {
                 weaponSwitch = 0;
                 lastSwitchTime = Time.time; // Оновлюємо час останнього перемикання
             }
-            if (Input.GetKeyDown(KeyCode.Alpha2) && transform.childCount >= 2 && !Pause_menu.IsPauseMenuOpen)
+            if (Input.GetKeyDown(KeyCode.Alpha2) && transform.childCount >= 2 && !Pause_menu.IsPauseMenuOpen && !Inventory.IsInventoryOpen)
             {
                 weaponSwitch = 1;
                 lastSwitchTime = Time.time; // Оновлюємо час останнього перемикання
             }
-            if (Input.GetKeyDown(KeyCode.Alpha3) && minigunPickedUp == true && !Pause_menu.IsPauseMenuOpen)
+            if (Input.GetKeyDown(KeyCode.Alpha3) && minigunPickedUp == true && !Pause_menu.IsPauseMenuOpen && !Inventory.IsInventoryOpen)
             {
                 weaponSwitch = 2;
                 lastSwitchTime = Time.time; // Оновлюємо час останнього перемикання
@@ -104,7 +104,7 @@ public class WeaponSwitch : MonoBehaviour
         }
 
         // Перевіряємо, чи гравець натиснув клавішу F і чи є зброя для підбору
-        if (Input.GetKeyDown(KeyCode.F) && weaponToPickup != null)
+        if (Input.GetKeyDown(KeyCode.F) && weaponToPickup  != null && !Pause_menu.IsPauseMenuOpen && !Inventory.IsInventoryOpen)
         {
             PickupWeapon(weaponToPickup);
         }
