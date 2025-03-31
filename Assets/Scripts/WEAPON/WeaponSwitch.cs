@@ -185,18 +185,4 @@ public class WeaponSwitch : MonoBehaviour
         weaponToPickup = null; // Очищаємо посилання на об'єкт після підбору
     }
 //--------------------------------------------------------------------------------
-
-    //private void OnTriggerEnter2D(Collider2D collision)
-    //{
-    //    if (collision.gameObject.tag == "MinigunPickedUp")
-    //    {
-    //        weaponOpen -= 1;
-    //        minigunPickedUp = true;
-
-    //        Destroy(collision.gameObject);
-    //        weaponSwitch = 2;
-    //        SelectWeapon();
-
-    //    }
-    //}
 }

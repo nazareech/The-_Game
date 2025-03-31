@@ -55,13 +55,13 @@ public class Inventory : MonoBehaviour
             AddGraphics();
         }
 
-        // Заповнення інвентаря рандомними елементами
+        /*// Заповнення інвентаря рандомними елементами
         for(int i = 0; i < maxCount; i++)
         {
             AddItem(i, data.items[Random.Range(0, data.items.Count)], Random.Range(1, itemsInStack));
         }
         UpdateInventory();
-
+*/
         // Вимикаємо інвентарь при запуску гри
         backGround.SetActive(false);
     }
@@ -151,6 +151,41 @@ public class Inventory : MonoBehaviour
         {
             items[id].itemGameObject.GetComponentInChildren<TextMeshProUGUI>().text = "";
         }
+    }
+
+    public bool AddItemToInventory(Item item, int count)
+    {
+        // Спочатку шукаємо існуючий стак
+        for (int i = 0; i < maxCount; i++)
+        {
+            if (items[i].id == item.id && items[i].count < itemsInStack)
+            {
+                int spaceLeft = itemsInStack - items[i].count;
+                if (count <= spaceLeft)
+                {
+                    items[i].count += count;
+                    UpdateInventory();
+                    return true;
+                }
+                else
+                {
+                    items[i].count = itemsInStack;
+                    count -= spaceLeft;
+                }
+            }
+        }
+
+        // Потім шукаємо вільний слот
+        for (int i = 0; i < maxCount; i++)
+        {
+            if (items[i].id == 0)
+            {
+                AddItem(i, item, Mathf.Min(count, itemsInStack));
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public void AddGraphics()
