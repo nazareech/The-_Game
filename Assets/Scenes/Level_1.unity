@@ -759,7 +759,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &208266632
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2970,11 +2970,11 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 703159571}
-  - {fileID: 766415344}
   - {fileID: 208266632}
   - {fileID: 1376759744}
   - {fileID: 991013966}
   - {fileID: 1454526695}
+  - {fileID: 766415344}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -2996,7 +2996,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pauseMusic: {fileID: 1020339922}
   pauseMenuUI: {fileID: 766415343}
-  sliderHP: {fileID: 1376759743}
   interactionTip: {fileID: 991013965}
 --- !u!1 &827399839
 GameObject:
@@ -5378,8 +5377,8 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 246453437}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 1, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -5515,7 +5514,7 @@ RectTransform:
   m_Father: {fileID: 114505338}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 63.92151, y: -0.085100174}
   m_SizeDelta: {x: -103.1266, y: -34.6449}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -6617,6 +6616,10 @@ PrefabInstance:
       propertyPath: interactionTip
       value: 
       objectReference: {fileID: 991013965}
+    - target: {fileID: 7304821404335758429, guid: f2f76ccceddc0dd4ca94a94df01499a5, type: 3}
+      propertyPath: fireRate
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 7661269000484635834, guid: f2f76ccceddc0dd4ca94a94df01499a5, type: 3}
       propertyPath: heatSlider
       value: 

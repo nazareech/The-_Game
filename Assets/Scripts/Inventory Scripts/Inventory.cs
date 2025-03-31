@@ -39,6 +39,9 @@ public class Inventory : MonoBehaviour
     [Header("Object to hide inventory")]
     public GameObject backGround;
 
+    // Додаємо публічну властивість для перевірки стану
+    public static bool IsInventoryOpen { get; private set; }
+
     private void Start()
     {
         // Ініціалізуємо CanvasGroup один раз для плавності
@@ -73,6 +76,8 @@ public class Inventory : MonoBehaviour
         if (Input.GetKeyDown(openInventory))
         {
             backGround.SetActive(!backGround.activeSelf);
+            IsInventoryOpen = backGround.activeSelf; // Оновлюємо стан
+
             if (backGround.activeSelf)
             {
                 UpdateInventory();
