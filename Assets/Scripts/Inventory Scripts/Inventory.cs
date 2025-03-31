@@ -9,10 +9,11 @@ using UnityEditor.Search;
 
 public class Inventory : MonoBehaviour
 {
+    [Header("Main inventory setings")]
     public KeyCode openInventory = KeyCode.Q;
+    public int itemsInStack = 32;
 
-    public int stacItems = 32;
-
+    [Header("Linking objects")]
     public DataBase data;
 
     public List<ItemInventory> items = new List<ItemInventory>();
@@ -21,17 +22,21 @@ public class Inventory : MonoBehaviour
 
     public GameObject inventoryMainObject;
 
+    [Header("Number of cells")]
     public int maxCount;
 
+    [Header("Setings for display")]
     public Camera cam;
     public EventSystem es;
 
     public int currentID;
     public ItemInventory currentItem;
 
+    [Header("Object to display the movement")]
     public RectTransform movingObject;
     public Vector3 offset;
 
+    [Header("Object to hide inventory")]
     public GameObject backGround;
 
     private void Start()
@@ -44,7 +49,7 @@ public class Inventory : MonoBehaviour
         // Заповнення інвентаря рандомними елементами
         for(int i = 0; i < maxCount; i++)
         {
-            AddItem(i, data.items[Random.Range(0, data.items.Count)], Random.Range(1, stacItems));
+            AddItem(i, data.items[Random.Range(0, data.items.Count)], Random.Range(1, itemsInStack));
         }
         UpdateInventory();
 
@@ -75,13 +80,13 @@ public class Inventory : MonoBehaviour
         {
             if (items[i].id == item.id)
             {
-                if (items[0].count < stacItems)
+                if (items[0].count < itemsInStack)
                 {
                     items[i].count += count;
-                    if (items[i].count > stacItems)
+                    if (items[i].count > itemsInStack)
                     {
-                        count = items[i].count - stacItems;
-                        items[i].count = stacItems / 2;
+                        count = items[i].count - itemsInStack;
+                        items[i].count = itemsInStack / 2;
                     }
                     else
                     {
@@ -211,15 +216,15 @@ public class Inventory : MonoBehaviour
             }
             else
             {
-                if (II.count + currentItem.count <= stacItems)
+                if (II.count + currentItem.count <= itemsInStack)
                 {
                     II.count += currentItem.count;
                 }
                 else
                 {
-                    AddItem(currentID, data.items[II.id], II.count + currentItem.count - stacItems);
+                    AddItem(currentID, data.items[II.id], II.count + currentItem.count - itemsInStack);
 
-                    II.count = stacItems;
+                    II.count = itemsInStack;
                 }
 
                 II.itemGameObject.GetComponentInChildren<TextMeshProUGUI>().text = II.count.ToString();
