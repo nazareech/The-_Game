@@ -5181,6 +5181,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1911117938}
   - component: {fileID: 1911117940}
+  - component: {fileID: 1911117941}
   m_Layer: 5
   m_Name: Options_menu
   m_TagString: Untagged
@@ -5219,6 +5220,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1911117937}
   m_CullTransparentMesh: 1
+--- !u!114 &1911117941
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1911117937}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff287bd1187e4a047a826453f31dd678, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  optionsMenu: {fileID: 1911117937}
+  mainMenu: {fileID: 383167938}
 --- !u!224 &1931257436 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 1066146572081867663, guid: 9685c5caea64c9a4398816e78da6add0, type: 3}

@@ -11,9 +11,12 @@ public class Pause_menu : MonoBehaviour
 
     [Header("UI Settings")]
     public GameObject pauseMenuUI;
-    public GameObject sliderHP;
+    
     public GameObject interactionTip;
- 
+
+    // Додаємо публічну властивість для перевірки стану
+    public static bool IsPauseMenuOpen { get; private set; }
+
     //public GameObject sliderOverheat;
 
 
@@ -50,8 +53,9 @@ public class Pause_menu : MonoBehaviour
         isPaused = false;
         // Music_is_Play = false;
 
-        // Включаємо повзунок здоров'я
-        sliderHP.SetActive(true);
+       
+
+        IsPauseMenuOpen = pauseMenuUI.activeSelf;  // Оновлюємо стан
     }
     public void Pause()
     {
@@ -63,8 +67,7 @@ public class Pause_menu : MonoBehaviour
         isPaused = true;
         // Music_is_Play = true;
 
-        // Виключаємо повзунок здоров'я
-        sliderHP.SetActive(false);
+        IsPauseMenuOpen = pauseMenuUI.activeSelf;  // Оновлюємо стан
     }
     public void ExitGame()
     {

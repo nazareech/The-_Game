@@ -20,8 +20,9 @@ public class WeaponSwitch : MonoBehaviour
     public GameObject interactionTip;
 
     private Animator anim;              // Animator для активної зброї
+
     private GameObject weaponToPickup;  // Зберігаємо об'єкт, який можна підібрати
-    private bool isEscPressed = false;  // Заподігання зміни зброї коли гра на паузі
+    //private bool isEscPressed = false;  // Заподігання зміни зброї коли гра на паузі
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -35,7 +36,7 @@ public class WeaponSwitch : MonoBehaviour
     {
         int currentWeapon = weaponSwitch;
 
-        if (Input.GetKeyDown(KeyCode.Escape)) 
+        /*if (Input.GetKeyDown(KeyCode.Escape)) 
         {
             if(isEscPressed)
             {
@@ -45,13 +46,13 @@ public class WeaponSwitch : MonoBehaviour
             {
                 isEscPressed = true;
             }
-        }
+        }*/
 
             // Перевіряємо, чи минув час затримки
             if (Time.time >= lastSwitchTime + switchCooldown)
         {
             // Колесо мишки
-            if (Input.GetAxis("Mouse ScrollWheel") > 0f && !isEscPressed)
+            if (Input.GetAxis("Mouse ScrollWheel") > 0f && !Pause_menu.IsPauseMenuOpen && !Inventory.IsInventoryOpen)
             {
                 if (weaponSwitch >= transform.childCount - weaponOpen)
                 {
@@ -65,7 +66,7 @@ public class WeaponSwitch : MonoBehaviour
                 lastSwitchTime = Time.time; // Оновлюємо час останнього перемикання
             }
 
-            if (Input.GetAxis("Mouse ScrollWheel") < 0f && !isEscPressed)
+            if (Input.GetAxis("Mouse ScrollWheel") < 0f && !Pause_menu.IsPauseMenuOpen && !Inventory.IsInventoryOpen)
             {
                 if (weaponSwitch <= 0)
                 {
@@ -80,17 +81,17 @@ public class WeaponSwitch : MonoBehaviour
             }
 
             // Клавіатура
-            if (Input.GetKeyDown(KeyCode.Alpha1) && !isEscPressed)
+            if (Input.GetKeyDown(KeyCode.Alpha1) && !Pause_menu.IsPauseMenuOpen && !Inventory.IsInventoryOpen)
             {
                 weaponSwitch = 0;
                 lastSwitchTime = Time.time; // Оновлюємо час останнього перемикання
             }
-            if (Input.GetKeyDown(KeyCode.Alpha2) && transform.childCount >= 2 && isEscPressed)
+            if (Input.GetKeyDown(KeyCode.Alpha2) && transform.childCount >= 2 && !Pause_menu.IsPauseMenuOpen && !Inventory.IsInventoryOpen)
             {
                 weaponSwitch = 1;
                 lastSwitchTime = Time.time; // Оновлюємо час останнього перемикання
             }
-            if (Input.GetKeyDown(KeyCode.Alpha3) && minigunPickedUp == true && isEscPressed)
+            if (Input.GetKeyDown(KeyCode.Alpha3) && minigunPickedUp == true && !Pause_menu.IsPauseMenuOpen && !Inventory.IsInventoryOpen)
             {
                 weaponSwitch = 2;
                 lastSwitchTime = Time.time; // Оновлюємо час останнього перемикання
@@ -103,7 +104,7 @@ public class WeaponSwitch : MonoBehaviour
         }
 
         // Перевіряємо, чи гравець натиснув клавішу F і чи є зброя для підбору
-        if (Input.GetKeyDown(KeyCode.F) && weaponToPickup != null)
+        if (Input.GetKeyDown(KeyCode.F) && weaponToPickup  != null && !Pause_menu.IsPauseMenuOpen && !Inventory.IsInventoryOpen)
         {
             PickupWeapon(weaponToPickup);
         }
@@ -184,18 +185,4 @@ public class WeaponSwitch : MonoBehaviour
         weaponToPickup = null; // Очищаємо посилання на об'єкт після підбору
     }
 //--------------------------------------------------------------------------------
-
-    //private void OnTriggerEnter2D(Collider2D collision)
-    //{
-    //    if (collision.gameObject.tag == "MinigunPickedUp")
-    //    {
-    //        weaponOpen -= 1;
-    //        minigunPickedUp = true;
-
-    //        Destroy(collision.gameObject);
-    //        weaponSwitch = 2;
-    //        SelectWeapon();
-
-    //    }
-    //}
 }

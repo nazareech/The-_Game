@@ -55,7 +55,7 @@ public class _Weapon : MonoBehaviour
     {
         GunRotation();
 
-        if (Input.GetMouseButton(0) && Time.time >= nextFireTime)
+        if (Input.GetMouseButton(0) && Time.time >= nextFireTime && !Inventory.IsInventoryOpen && !Pause_menu.IsPauseMenuOpen)
         {
             nextFireTime = Time.time + fireRate; // Оновлюємо час наступного пострілу
             Shoot();

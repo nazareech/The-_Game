@@ -8,6 +8,9 @@ TagManager:
   - Minigun
   - MinigunPickedUp
   - Enemy
+  - InventoryManager
+  - Jewelry
+  - Braslet
   layers:
   - Default
   - TransparentFX
@@ -45,5 +48,9 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Camera
+    uniqueID: 2533624429
+    locked: 0
   m_RenderingLayers:
   - Default
+  - Camera
