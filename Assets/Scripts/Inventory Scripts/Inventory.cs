@@ -41,6 +41,12 @@ public class Inventory : MonoBehaviour
 
     private void Start()
     {
+        // Ініціалізуємо CanvasGroup один раз для плавності
+        CanvasGroup cg = movingObject.GetComponent<CanvasGroup>();
+        if (cg == null) cg = movingObject.gameObject.AddComponent<CanvasGroup>();
+        cg.alpha = 0.8f;
+        cg.blocksRaycasts = false;
+
         if (items.Count == 0)
         {
             AddGraphics();
@@ -134,7 +140,7 @@ public class Inventory : MonoBehaviour
 
         if (invItem.count > 1 && invItem.id != 0)
         {
-            items[id].itemGameObject.GetComponentInChildren<TextMeshProUGUI>().text = invItem.id.ToString();
+            items[id].itemGameObject.GetComponentInChildren<TextMeshProUGUI>().text = invItem.count.ToString();
         }
         else
         {
@@ -170,17 +176,21 @@ public class Inventory : MonoBehaviour
     {
         for (int i = 0; i < maxCount; i++)
         {
+
+            Image img = items[i].itemGameObject.GetComponent<Image>();
+            TextMeshProUGUI text = items[i].itemGameObject.GetComponentInChildren<TextMeshProUGUI>();
+
+
+            img.sprite = data.items[items[i].id].img;
+
             if (items[i].id != 0 && items[i].count > 1)
             {
-                items[i].itemGameObject.GetComponentInChildren<TextMeshProUGUI>().text = items[i].count.ToString();
+                text.text = items[i].count.ToString();
             }
-            else 
+            else
             {
-                items[i].itemGameObject.GetComponentInChildren<TextMeshProUGUI>().text = "";
-
+                text.text = "";
             }
-
-            items[i].itemGameObject.GetComponentInChildren<Image>().sprite = data.items[items[i].id].img;
 
         }
     }
@@ -200,9 +210,13 @@ public class Inventory : MonoBehaviour
 
             currentItem = CopyInventoryItem(items[currentID]);
             movingObject.gameObject.SetActive(true);
+
             movingObject.GetComponent<Image>().sprite = data.items[currentItem.id].img;
 
-            AddItem(currentID, data.items[0], 0);
+            // Очищаємо вихідний слот
+            items[currentID].id = 0;
+            items[currentID].count = 0;
+            UpdateInventory();
         }
         else
         {
@@ -223,24 +237,45 @@ public class Inventory : MonoBehaviour
                 else
                 {
                     AddItem(currentID, data.items[II.id], II.count + currentItem.count - itemsInStack);
-
                     II.count = itemsInStack;
                 }
 
-                II.itemGameObject.GetComponentInChildren<TextMeshProUGUI>().text = II.count.ToString();
+                // Викликаємо UpdateInventory замість прямого оновлення тексту
+                UpdateInventory();
+
+                //II.itemGameObject.GetComponentInChildren<TextMeshProUGUI>().text = II.count.ToString();
             }
            
             currentID = -1;
-
             movingObject.gameObject.SetActive(false);
         }
     }
 
     public void MoveObject()
     {
-        Vector3 pos = Input.mousePosition + offset;
-        pos.z = inventoryMainObject.GetComponent<RectTransform>().localPosition.z; 
-        movingObject.position = cam.ScreenToWorldPoint(pos);
+        if (currentID == -1 || movingObject == null) return;
+
+        // Отримуємо позицію курсора в координатах канвасу
+        Vector2 localPoint;
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(
+            inventoryMainObject.GetComponent<RectTransform>(),
+            Input.mousePosition,
+            cam,
+            out localPoint
+        );
+
+        // Встановлюємо позицію перетягуваного об'єкта
+        movingObject.localPosition = localPoint + new Vector2(offset.x, offset.y);
+
+        // Додаткова перевірка видимості
+        if (!movingObject.gameObject.activeSelf)
+        {
+            movingObject.gameObject.SetActive(true);
+        }
+
+        // Оновлюємо зображення (на випадок змін)
+        movingObject.GetComponent<Image>().sprite = data.items[currentItem.id].img;
+        movingObject.GetComponent<Image>().color = Color.white;
     }
 
     public ItemInventory CopyInventoryItem(ItemInventory old)
