@@ -19,5 +19,7 @@ public class Enemy : MonoBehaviour
     void Die()
     {
         Destroy(gameObject);
+
+        SanitySystem.Instance.EnemyKilled();
     }
 }
