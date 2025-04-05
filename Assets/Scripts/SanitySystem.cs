@@ -1,36 +1,36 @@
-using UnityEngine;
+п»їusing UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Rendering.PostProcessing;
 
 public class SanitySystem : MonoBehaviour
 {
-    public static SanitySystem Instance;    // Екземпляр класу для виклику функцій
+    public static SanitySystem Instance;    // Р•РєР·РµРјРїР»СЏСЂ РєР»Р°СЃСѓ РґР»СЏ РІРёРєР»РёРєСѓ С„СѓРЅРєС†С–Р№
 
     [Header("Sanity Settings")]
     public Slider sanitySlider;
-    public float maxSanity = 100f;      // максимальна Розсудливість
-    public float sanityDecreasePerKill = 5f; // ЗМеншення за одне вбивство
-    public float minSanityForEffects = 10f; // мінімальна Розсудливість заради ефекту
+    public float maxSanity = 100f;      // РјР°РєСЃРёРјР°Р»СЊРЅР° Р РѕР·СЃСѓРґР»РёРІС–СЃС‚СЊ
+    public float sanityDecreasePerKill = 5f; // Р—РњРµРЅС€РµРЅРЅСЏ Р·Р° РѕРґРЅРµ РІР±РёРІСЃС‚РІРѕ
+    public float minSanityForEffects = 10f; // РјС–РЅС–РјР°Р»СЊРЅР° Р РѕР·СЃСѓРґР»РёРІС–СЃС‚СЊ Р·Р°СЂР°РґРё РµС„РµРєС‚Сѓ
 
     [Header("Low Sanity Effects")]
-    public PostProcessVolume lowSanityEffect; // Ефект пост-обробки
+    public PostProcessVolume lowSanityEffect; // Р•С„РµРєС‚ РїРѕСЃС‚-РѕР±СЂРѕР±РєРё
     public GameObject ghostPrefab;
-    public float ghostSpawnInterval = 10f;  // інтервал спавну примар
-    public float ghostSpawnDistance = 15f;  // дистанція спавну примар 
-    public float ghostUniformScale = 1.0f; // Новий параметр для контролю розміру
+    public float ghostSpawnInterval = 10f;  // С–РЅС‚РµСЂРІР°Р» СЃРїР°РІРЅСѓ РїСЂРёРјР°СЂ
+    public float ghostSpawnDistance = 15f;  // РґРёСЃС‚Р°РЅС†С–СЏ СЃРїР°РІРЅСѓ РїСЂРёРјР°СЂ 
+    public float ghostUniformScale = 1.0f; // РќРѕРІРёР№ РїР°СЂР°РјРµС‚СЂ РґР»СЏ РєРѕРЅС‚СЂРѕР»СЋ СЂРѕР·РјС–СЂСѓ
 
-    private float currentSanity;        // теперішній стан розсудку
-    private float nextGhostSpawnTime;   // наступний час спавну привидів
-    private int enemiesKilled = 0;      // Вбито ворогів
+    private float currentSanity;        // С‚РµРїРµСЂС–С€РЅС–Р№ СЃС‚Р°РЅ СЂРѕР·СЃСѓРґРєСѓ
+    private float nextGhostSpawnTime;   // РЅР°СЃС‚СѓРїРЅРёР№ С‡Р°СЃ СЃРїР°РІРЅСѓ РїСЂРёРІРёРґС–РІ
+    private int enemiesKilled = 0;      // Р’Р±РёС‚Рѕ РІРѕСЂРѕРіС–РІ
 
 
     private void Awake()
     {
-        // Виправлення для DontDestroyOnLoad
+        // Р’РёРїСЂР°РІР»РµРЅРЅСЏ РґР»СЏ DontDestroyOnLoad
         if (Instance == null)
         {
             Instance = this;
-            transform.SetParent(null); // Від'єднуємо від батьківського об'єкта
+            transform.SetParent(null); // Р’С–Рґ'С”РґРЅСѓС”РјРѕ РІС–Рґ Р±Р°С‚СЊРєС–РІСЃСЊРєРѕРіРѕ РѕР±'С”РєС‚Р°
             DontDestroyOnLoad(gameObject);
         }
         else
@@ -72,13 +72,13 @@ public class SanitySystem : MonoBehaviour
 
     private void HandleLowSanityEffects()
     {
-        // Включити ефекти пост-обробки
+        // Р’РєР»СЋС‡РёС‚Рё РµС„РµРєС‚Рё РїРѕСЃС‚-РѕР±СЂРѕР±РєРё
         if (lowSanityEffect != null && !lowSanityEffect.enabled)
         {
             lowSanityEffect.enabled = true;
         }
 
-        // Спавнити привидів
+        // РЎРїР°РІРЅРёС‚Рё РїСЂРёРІРёРґС–РІ
         if (Time.time >= nextGhostSpawnTime && ghostPrefab != null)
         {
             SpawnGhost();
@@ -88,13 +88,13 @@ public class SanitySystem : MonoBehaviour
 
     private void SpawnGhost()
     {
-        // 1. Генеруємо позицію
+        // 1. Р“РµРЅРµСЂСѓС”РјРѕ РїРѕР·РёС†С–СЋ
         Vector2 spawnDirection2D = Random.insideUnitCircle.normalized;
         Vector3 spawnPosition = Camera.main.transform.position +
                               new Vector3(spawnDirection2D.x, spawnDirection2D.y, 0) * ghostSpawnDistance;
-        spawnPosition.z = 0; // Фіксуємо Z для 2D
+        spawnPosition.z = 0; // Р¤С–РєСЃСѓС”РјРѕ Z РґР»СЏ 2D
 
-        // 2. Створюємо привида
+        // 2. РЎС‚РІРѕСЂСЋС”РјРѕ РїСЂРёРІРёРґР°
         if (ghostPrefab == null)
         {
             Debug.LogError("Ghost prefab is not assigned!");
@@ -104,12 +104,12 @@ public class SanitySystem : MonoBehaviour
         GameObject ghost = Instantiate(ghostPrefab, spawnPosition, Quaternion.identity);
         Debug.Log("Ghost spawned at: " + spawnPosition);
 
-        // 3. Налаштування рендерера
+        // 3. РќР°Р»Р°С€С‚СѓРІР°РЅРЅСЏ СЂРµРЅРґРµСЂРµСЂР°
         SpriteRenderer spriteRenderer = ghost.GetComponent<SpriteRenderer>();
         if (spriteRenderer != null)
         {
             spriteRenderer.enabled = true;
-            spriteRenderer.sortingLayerName = "Ghosts"; // Назва вашого шару
+            spriteRenderer.sortingLayerName = "Ghosts"; // РќР°Р·РІР° РІР°С€РѕРіРѕ С€Р°СЂСѓ
             spriteRenderer.sortingOrder = 1;
         }
         else
